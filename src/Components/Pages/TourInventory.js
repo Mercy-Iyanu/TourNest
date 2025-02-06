@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import TourInformationForm from '../Organisms/TourInformationForm ';
+import TourItineraryForm from '../Organisms/TourItineraryForm';
 
 const TourInventoryPage = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <TourInformationForm />
+      <TourItineraryForm />
     </div>
   );
 };

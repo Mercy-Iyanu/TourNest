@@ -4,9 +4,6 @@ module.exports = {
   mode: "jit",
   theme: {
     fontFamily: {
-      // Roboto: ["Roboto", "sans-serif"],
-      // Poppins: ["Poppins", "sans-serif"],
-      // Montserrat: ["Montserrat", "sans-serif"],
     },
     extend: {
       screens: {
@@ -20,7 +17,7 @@ module.exports = {
         "400px": "400px",
       },
       colors: {
-        lilac: "#C8A2C8", // or any lilac color code you prefer
+        lilac: "#C8A2C8",
         borderblue: "#6A0DAD",
         deepgrey: "#333",
       },
