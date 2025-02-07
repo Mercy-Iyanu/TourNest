@@ -39,7 +39,7 @@ const TourItineraryForm = () => {
               <FaArrowRight />
             </span>
           }
-          className="bg-[#1D777D] text-white hover:bg-[#145b5f] px-6 py-3"
+          className="border border-[#1D777D] text-black hover:bg-[#145b5f] px-6 py-3"
         />
       </div>
     </div>

@@ -6,7 +6,7 @@ const TourActivityEndTime = () => {
     <div className="w-full max-w-sm">
       {/* Label */}
       <label className="block text-gray-700 font-semibold mb-2">
-      Start Time
+      End Time
         <span className="text-red-500 ml-1">*</span>
       </label>
 
