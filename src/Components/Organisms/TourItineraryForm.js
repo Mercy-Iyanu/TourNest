@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TourItineraryCard from "./TourItineraryCard";
 import Button from "../Atoms/Button";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 
 const TourItineraryForm = () => {
   const [itineraries, setItineraries] = useState([{ id: 1 }]);
@@ -30,17 +30,27 @@ const TourItineraryForm = () => {
           </div>
         </div>
       ))}
-        <div className="flex justify-end gap-6 mt-6">
         <Button text="Add New Itinerary" onClick={addNewItinerary} />
-        <Button
-          text={
-            <span className="flex items-center space-x-2">
-              <span>Next</span>
-              <FaArrowRight />
-            </span>
-          }
-          className="border border-[#1D777D] text-black hover:bg-[#145b5f] px-6 py-3"
-        />
+        <div className="flex justify-between mt-6 gap-6 mt-6">
+          <Button
+            text={
+              <span className="flex items-center space-x-2">
+                <FaArrowLeft />
+                <span>Previous</span>
+              </span>
+            }
+            className="bg-gray-500 text-white hover:bg-gray-600 px-6 py-3 rounded-lg"
+          />
+          
+          <Button
+            text={
+              <span className="flex items-center space-x-2">
+                <span>Next</span>
+                <FaArrowRight />
+              </span>
+            }
+            className="bg-[#1D777D] text-white hover:bg-[#145b5f] px-6 py-3 rounded-lg"
+          />
       </div>
     </div>
   );

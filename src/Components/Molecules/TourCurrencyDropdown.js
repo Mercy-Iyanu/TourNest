@@ -12,7 +12,7 @@ const TourCurrencyDropdown = () => {
 
   return (
     <div className="mb-6">
-      <label className="block text-lg font-medium mb-2">
+      <label className="block text-sm font-medium mb-2">
       Currency code <span className="text-red-500">*</span>
       </label>
       <select

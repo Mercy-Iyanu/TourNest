@@ -19,7 +19,7 @@ const TourDate = ({ label }) => {
   return (
     <div className="max-w-sm">
       <label className="block text-sm font-semibold text-gray-800 mb-2">
-        {label} <span className="text-red-500">*</span>
+        {label} 
       </label>
       <div className="relative">
         <div
@@ -28,7 +28,7 @@ const TourDate = ({ label }) => {
         >
           <FaCalendarAlt className="text-gray-500 mr-2" />
           <span>
-            {date ? date.toLocaleDateString("en-GB") : "DD/MMM/YYYY"}
+            {date ? date.toLocaleDateString("en-GB") : "DD/MM/YYYY"}
           </span>
         </div>
 

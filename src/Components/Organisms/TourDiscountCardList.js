@@ -15,7 +15,7 @@ const TourDiscountCardList = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 md:p-6 border-4 border-[#1D777D] rounded-lg">
         <label className="block text-gray-700 font-semibold mb-2">
         Discounts available for group sizes or advance bookings
         <span className="text-red-500 ml-1">*</span>

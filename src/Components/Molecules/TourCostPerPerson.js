@@ -4,7 +4,7 @@ import { FaMoneyCheck } from 'react-icons/fa';
 const TourCostPerPerson = () => {
   return (
     <div className="mb-6">
-      <label className="font-semibold text-lg block mb-2">
+      <label className="font-semibold text-sm block mb-2">
       Cost per person <span className="text-red-500">*</span>
       </label>
       <div className="relative">
