@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import TourTable from "./Components/Organisms/TourTable";
-import TourInventoryPage from './Components/Pages/TourInventory';
-// import TourDetails from "./components/TourDetails";
+import TourInventoryPage from './pages/TourInventory';
 
 function App() {
   return (
