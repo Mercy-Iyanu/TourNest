@@ -7,7 +7,7 @@ import Login from '../components/auth/Login';
 const TourInventoryPage = () => {
 
   return (
-    <Login />
+    <ParentTourPackageForm />
   );
 };
 

@@ -2,13 +2,19 @@ import React from 'react';
 import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({onLogin}) => {
+    const navigate = useNavigate();
     const googleProvider = new GoogleAuthProvider();
+
     const GoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             console.log(result.user);
+            localStorage.setItem("authUser", JSON.stringify(result.user));
+            onLogin(true);
+            navigate('/');
         } catch (error) {
             console.log(error);
         }
@@ -20,11 +26,17 @@ const Login = () => {
             <h3 className='py-4'>Join 400+ tour owners to create enjoyable tourist experience!</h3>
         </div>
         <div className='flex flex-col gap-4'> 
-            <button onClick={GoogleLogin} className='text-white bg-red-700 p-4 w-full font-medium rounded-lg flex align-middle gap-2'>
-                <FaGoogle className='text-2xl'/> Sign in with Google
+            <button onClick={GoogleLogin} 
+                className='text-white bg-red-700 p-4 w-full font-medium rounded-lg flex align-middle gap-2'
+            >
+                <FaGoogle className='text-2xl'/> 
+                Sign in with Google
             </button>
-            <button className='text-white bg-blue-700 p-4 w-full font-medium rounded-lg flex align-middle gap-2'>
-                <FaFacebook className='text-2xl'/> Sign in with Facebook
+            <button 
+                className='text-white bg-blue-700 p-4 w-full font-medium rounded-lg flex align-middle gap-2'
+            >
+                <FaFacebook className='text-2xl'/> 
+                Sign in with Facebook
             </button>
         </div>
     </div>
