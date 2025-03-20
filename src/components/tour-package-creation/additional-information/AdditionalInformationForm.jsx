@@ -15,18 +15,6 @@ const AdditionalInformationForm = () => {
       <TourOperatorContactFormCard />
 
       <TourTags onTagsChange={setSelectedTags} />
-
-      <div className="flex justify-end mt-6">
-        <Button
-          text={
-            <span className="flex items-center space-x-2">
-              <span>Create Package</span>
-              <FaArrowRight />
-            </span>
-          }
-          className="bg-[#1D777D] text-white hover:bg-[#145b5f] px-6 py-3"
-        />
-      </div>
     </div>
   );
 };
