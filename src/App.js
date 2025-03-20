@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import TourInventoryPage from './pages/TourInventory';
 import Login from './components/auth/Login';
 import Layout from './components/shared/Layout';
+import SignUp from './components/auth/Signup';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -11,6 +12,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login onLogin={() => setIsAuthenticated(true)} />} />
+          <Route path='/signup' element={<SignUp />}/>
         {isAuthenticated ? (
           <Route path='/' element={<Layout />}>
             <Route index element={<TourInventoryPage />} />
