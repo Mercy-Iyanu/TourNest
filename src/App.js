@@ -4,6 +4,8 @@ import TourInventoryPage from './pages/TourInventory';
 import Login from './components/auth/Login';
 import Layout from './components/shared/Layout';
 import SignUp from './components/auth/Signup';
+import TourOwnerDashboard from './pages/TourOwnerDashboard';
+import ParentTourPackageForm from './components/tour-package-creation/ParentTourPackageForm';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -16,6 +18,8 @@ function App() {
         {isAuthenticated ? (
           <Route path='/' element={<Layout />}>
             <Route index element={<TourInventoryPage />} />
+            <Route path="/" element={<TourOwnerDashboard />} />
+            <Route path="/create-package" element={<ParentTourPackageForm />} />
           </Route>
         ):(
           <Route path='*' element={<Navigate to='/login' replace/>} />
