@@ -10,6 +10,7 @@ const TourNameField = ({ formData, updateFormData }) => {
       <div className="relative">
         <input
           type="text"
+          required='required'
           value={formData.tourName || ""}
           onChange={(e) => updateFormData("tourName", e.target.value)}
           placeholder="Obudu Ranch"

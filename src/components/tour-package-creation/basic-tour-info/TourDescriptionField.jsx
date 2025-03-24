@@ -32,6 +32,7 @@ const TourDescriptionField = ({ formData, updateFormData }) => {
       {/* React-Quill Editor */}
       <div>
         <ReactQuill
+          required='required'
           value={formData.tourDescription || ""}
           onChange={(e) => updateFormData("tourDescription", e.target.value)}
           modules={modules}

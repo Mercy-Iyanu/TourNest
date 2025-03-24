@@ -19,7 +19,7 @@ function TopNav() {
   };
 
   return (
-    <nav className="bg-white p-4 fixed top-0 w-full flex items-center justify-between shadow-md z-50">
+    <nav className="bg-white p-4 top-0 w-full flex items-center justify-between shadow-md z-50">
       {/* Logo */}
       <Link to="/" className="text-xl font-semibold flex items-center">
         <img src="/logo.png" alt="GetThere Logo" className="h-12 mr-2" />

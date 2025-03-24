@@ -24,7 +24,7 @@ const TourLocationState = ({ country, state, setState, setLocations }) => {
       { value: "Waterfall", label: "Waterfall" },
     ];
 
-    setLocations([...cities, ...touristSpots]); // Combine cities and tourist spots
+    setLocations([...cities, ...touristSpots]);
   };
 
   return (

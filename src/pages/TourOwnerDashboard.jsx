@@ -58,10 +58,6 @@ const TourOwnerDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      {/* Dashboard Header */}
-      <div className="bg-blue-600 p-4 text-white text-center rounded-md">
-        <h1 className="text-2xl font-semibold">Tour Owner Dashboard</h1>
-      </div>
 
       {/* Create Tour Package Button */}
       <div className="mt-6 flex justify-end">
