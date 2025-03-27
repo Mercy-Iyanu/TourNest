@@ -33,6 +33,7 @@ const ParentTourPackageForm = () => {
 
     const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
     const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
+    const goToStep = (step) => setCurrentStep(step);
 
     const handleSubmit = () => {
         console.log("Final Form Data:", formData);
@@ -61,7 +62,7 @@ const ParentTourPackageForm = () => {
     return (
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-4">Create Tour Package</h2>
-          <StepIndicator currentStep={currentStep} steps={steps} />
+          <StepIndicator currentStep={currentStep} steps={steps} onStepClick={goToStep} />
           {renderFormStep()}
           <FormNavigation
             currentStep={currentStep}

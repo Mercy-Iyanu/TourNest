@@ -14,6 +14,10 @@
   "description": "",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.0.0",
+    "@mui/material": "^7.0.0",
     "@reduxjs/toolkit": "^2.1.0",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.20",
