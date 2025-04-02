@@ -7,7 +7,6 @@ const StepIndicator = ({ currentStep, steps, onStepClick }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return isMobile ? (
-    // Mobile-friendly Stepper (Horizontal Scroll)
     <MobileStepper
       variant="dots"
       steps={steps.length}

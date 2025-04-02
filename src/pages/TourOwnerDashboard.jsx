@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const TourOwnerDashboard = () => {
   const navigate = useNavigate();
-  // Sample data for tour packages
   const [tourPackages, setTourPackages] = useState([
     { id: 1, name: "Paris Tour", location: "France", duration: "5 Days", price: "$2000", status: "Active" },
     { id: 2, name: "New York City Tour", location: "USA", duration: "3 Days", price: "$1500", status: "Inactive" },

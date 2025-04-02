@@ -1,21 +1,29 @@
-import React from 'react';
-import { FaEnvelopeOpenText, FaSortNumericDown } from 'react-icons/fa';
+import React, {useState} from 'react';
+import { TextField, Box, Typography } from '@mui/material';
 
 const TourActivityTitle = () => {
+  const [title, setTitle] = useState('');
+
+  const handleChange = (event) => {
+    setTitle(event.target.value);
+  };
   return (
-    <div className="mb-6">
-      <label className="font-semibold text-lg block mb-2">
-      Title of the activity for the day <span className="text-red-500">*</span>
-      </label>
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="e.g Registration and setting out to the cattle ranch"
-          className="w-full p-3 pl-10 rounded-md border border-gray-300 focus:ring-2 focus:ring-[#1D777D] focus:outline-none text-base"
-        />
-        <FaEnvelopeOpenText className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+    <Box className="mb-4 md:mb-8 space-y-4">
+      <Typography className="text-base md:text-sm text-gray-800">
+      Activity Title <span className="text-red-500">*</span>
+            </Typography>
+      <div className="mb-4">
+      <TextField
+        fullWidth
+        required
+        variant="outlined"
+        value={title}
+        onChange={handleChange}
+        placeholder='e.g Registration and setting out to the cattle ranch'
+        className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      />
       </div>
-    </div>
+    </Box>
   );
 };
 

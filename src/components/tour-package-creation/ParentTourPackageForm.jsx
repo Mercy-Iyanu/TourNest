@@ -1,6 +1,10 @@
 import React, {useState} from "react";
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 import StepIndicator from "./shared/StepIndicator";
-import TourInformation from './basic-tour-info/TourInformationForm';
+import TourInformationForm from './basic-tour-info/TourInformationForm';
 import FormNavigation from './shared/FormNavigation';
 import TourItineraryForm from './itinerary-info/TourItineraryForm';
 import TourPricingForm from './pricing-availability/TourPricingForm';
@@ -13,22 +17,10 @@ const steps = ['Basic tour information', 'Itinerary details', 'Pricing and avail
 const ParentTourPackageForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const totalSteps = steps.length;
+    const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        packageName: "",
-        destination: "",
-        itinerary: "",
-        price: "",
-        booking: "",
-        media: "",
-        additionalInformation: ""
-    });
-
-    const updateFormData = (field, value) => {
-        setFormData((prevData) => ({
-          ...prevData,
-          [field]: value,
-        }));
+    const handleNavigation = (path) => {
+    navigate(path);
     };
 
     const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
@@ -43,25 +35,31 @@ const ParentTourPackageForm = () => {
     const renderFormStep = () => {
         switch (currentStep) {
             case 1:
-                return <TourInformation formData={formData} updateFormData={updateFormData} />;
+                return <TourInformationForm />;
             case 2:
-                return <TourItineraryForm formData={formData} updateFormData={updateFormData} />;
+                return <TourItineraryForm />;
             case 3:
-                return <TourPricingForm formData={formData} updateFormData={updateFormData} />;
+                return <TourPricingForm />;
             case 4:
-                return <BookingDetailsForm formData={formData} updateFormData={updateFormData} />;
+                return <BookingDetailsForm />;
             case 5:
-                return <MediaAssetsForm formData={formData} updateFormData={updateFormData} />;
+                return <MediaAssetsForm />;
             case 6:
-                return <AdditionalInformationForm formData={formData} updateFormData={updateFormData} />;  
+                return <AdditionalInformationForm />;  
             default:
-                return <TourInformation formData={formData} updateFormData={updateFormData} />;
+                return <TourInformationForm />;
         }
     };
 
     return (
         <div className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Create Tour Package</h2>
+            <h2 className="text-xl font-semibold mb-4">Create Tour Package</h2>
+            <Breadcrumbs aria-label="breadcrumb" className="text-blue">
+                <Link underline="hover" color="inherit" onClick={() => handleNavigation('/')}>
+                    Dashboard
+                </Link>
+                <Typography color="text.primary">Create Package</Typography>
+            </Breadcrumbs>
           <StepIndicator currentStep={currentStep} steps={steps} onStepClick={goToStep} />
           {renderFormStep()}
           <FormNavigation

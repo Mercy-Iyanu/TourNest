@@ -6,7 +6,7 @@ import TourItineraryTime from "./itinerary-time/TourItineraryTime";
 
 const TourItineraryCard = () => {
   return (
-    <div className="p-6 space-y-8 max-w-9xl mx-auto">
+    <div className="p-6 max-w-9xl mx-auto">
       <TourDayNumber />
       <TourActivityTitle />
       <TourActivityDescription />

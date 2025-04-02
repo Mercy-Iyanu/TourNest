@@ -1,21 +1,30 @@
-import React from 'react';
-import { FaSortNumericDown } from 'react-icons/fa';
+import React, {useState} from 'react';
+import { TextField, Box, Typography } from '@mui/material';
 
 const TourDayNumber = () => {
+  const [day, setDay] = useState('');
+
+  const handleChange = (event) => {
+    if (/^\d*$/.test(event.target.value)) {
+      setDay(event.target.value);
+    }
+  };
   return (
-    <div className="mb-6">
-      <label className="font-semibold text-lg block mb-2">
-      Day Number (Indicate the number of hour, day or stage of the tour) <span className="text-red-500">*</span>
-      </label>
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="e.g 1"
-          className="w-full p-3 pl-10 rounded-md border border-gray-300 focus:ring-2 focus:ring-[#1D777D] focus:outline-none text-base"
-        />
-        <FaSortNumericDown className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-      </div>
-    </div>
+    <Box className="mb-4 md:mb-8 space-y-4">
+      <Typography className="text-base md:text-sm text-gray-800">
+      Day Number <span className="text-red-500">*</span>
+      </Typography>
+          
+      <TextField
+        fullWidth
+        required
+        variant="outlined"
+        value={day}
+        onChange={handleChange}
+        placeholder="e.g. 1"
+        className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      />
+    </Box>
   );
 };
 

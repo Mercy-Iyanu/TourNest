@@ -1,24 +1,28 @@
 import React from 'react';
 import { FaMountain } from 'react-icons/fa';
+import { TextField, Box, Typography } from '@mui/material';
 
-const TourNameField = ({ formData, updateFormData }) => {
+const TourNameField = () => {
+  const [tourName, setTourName] = React.useState('');
+
+  const handleChange = (event) => {
+    setTourName(event.target.value);
+  };
   return (
-    <div className="mb-6">
-      <label className="font-semibold text-lg block mb-2">
-        Name of the tour <span className="text-red-500">*</span>
-      </label>
-      <div className="relative">
-        <input
-          type="text"
-          required='required'
-          value={formData.tourName || ""}
-          onChange={(e) => updateFormData("tourName", e.target.value)}
-          placeholder="Obudu Ranch"
-          className="w-full p-3 pl-10 rounded-md border border-gray-300 focus:ring-2 focus:ring-[#1D777D] focus:outline-none text-base"
-        />
-        <FaMountain className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-      </div>
-    </div>
+    <Box className="mb-4 md:mb-8 space-y-4">
+      <Typography className="text-base md:text-sm text-gray-800">
+        Name of the Tour <span className="text-red-500">*</span>
+      </Typography>
+      <TextField
+        fullWidth
+        required
+        variant="outlined"
+        value={tourName}
+        onChange={handleChange}
+        placeholder="e.g. Obudu Ranch"
+        className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      />
+    </Box>
   );
 };
 
