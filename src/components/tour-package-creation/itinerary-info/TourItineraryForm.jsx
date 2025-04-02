@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TourDayNumber from "./TourDayNumber";
 import TourActivityTitle from "./TourActivityTitle";
 import TourActivityDescription from "./TourActivityDescription";
-import TourItineraryTime from "./itinerary-time/TourItineraryTime";
+import TourItineraryTime from "./TourItineraryTime";
 
 const TourItineraryForm = () => {
   const [itineraries, setItineraries] = useState([{ id: 1 }]);

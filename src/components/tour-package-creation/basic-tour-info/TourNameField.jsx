@@ -9,7 +9,7 @@ const TourNameField = () => {
     setTourName(event.target.value);
   };
   return (
-    <Box className="mb-4 md:mb-8 space-y-4">
+    <Box className="mb-4 md:mb-8">
       <Typography className="text-base md:text-sm text-gray-800">
         Name of the Tour <span className="text-red-500">*</span>
       </Typography>

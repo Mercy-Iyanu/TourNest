@@ -8,7 +8,7 @@ const TourType = () => {
       setTourType(event.target.value);
     };
   return (
-    <Box className="mb-4 md:mb-8 space-y-4">
+    <Box className="mb-4 md:mb-8">
       <FormControl fullWidth required>
         <InputLabel id="tour-type-label">Tour Type</InputLabel>
         <Select

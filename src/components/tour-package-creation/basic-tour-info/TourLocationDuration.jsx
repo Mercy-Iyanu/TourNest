@@ -115,7 +115,7 @@ const TourLocationDuration = () => {
               type="number"
               value={duration}
               onChange={handleDurationChange}
-              placeholder="Enter the tour duration in hours or days"
+              placeholder="e.g 5 hours"
               className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </Box>

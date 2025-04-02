@@ -1,14 +1,14 @@
 import React from "react";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
-import Button from "../shared/Button";
-import TourCostCard from "./discount-card/TourCostCard";
-import TourDiscountCardList from "./discount-card/TourDiscountCardList";
-import TourDateDuration from "./date-duration/TourDateDuration";
+import TourCostPerPerson from './TourCostPerPerson'
+import TourDiscountCardList from "./TourDiscountCardList";
+import TourDateDuration from "./TourDateDuration";
+import TourCurrencyDropdown from "./TourCurrencyDropdown";
 
 const TourPricingForm = () => {
   return (
     <div className="p-6 space-y-8 max-w-5xl mx-auto">
-      <TourCostCard />
+      <TourCostPerPerson />
+      <TourCurrencyDropdown />
       <TourDiscountCardList />
       <TourDateDuration />
     </div>
