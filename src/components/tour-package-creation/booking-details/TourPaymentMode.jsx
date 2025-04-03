@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { Box, Typography, Button } from "@mui/material";
 
 const paymentOptions = [
   { id: 1, name: "Paystack (NGN)", type: "local" },
@@ -28,15 +29,16 @@ const PaymentMethodSelector = () => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto my-6">
-      <label className="font-semibold text-sm block mb-2">
-        Accepted mode of payment <span className="text-red-500">*</span>
-      </label>
+    <Box className="mb-4 md:mb-8">
+      <Typography className="text-base md:text-sm text-gray-800">
+        Accepted Payment Methods <span className="text-red-500">*</span>
+      </Typography>
+
       {/* Selected Payment Methods */}
       {selectedMethods.length > 0 && (
-        <div className="mb-4 p-3 border rounded-lg bg-gray-100 flex flex-wrap gap-2">
+        <Box className="mb-4 p-3 border rounded-lg bg-gray-100 flex flex-wrap gap-2">
           {selectedMethods.map((method) => (
-            <div
+            <Box
               key={method.id}
               className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full"
             >
@@ -45,17 +47,17 @@ const PaymentMethodSelector = () => {
                 className="ml-2 cursor-pointer"
                 onClick={() => handleRemove(method)}
               />
-            </div>
+            </Box>
           ))}
-        </div>
+        </Box>
       )}
 
       {/* Payment Method List */}
-      <div className="flex flex-wrap gap-3">
+      <Box className="flex flex-wrap gap-3">
         {paymentOptions
           .filter((method) => !selectedMethods.some((m) => m.id === method.id))
           .map((method) => (
-            <button
+            <Button
               key={method.id}
               onClick={() => handleSelect(method)}
               className={`px-4 py-2 rounded-lg border text-sm font-medium cursor-pointer ${
@@ -65,10 +67,10 @@ const PaymentMethodSelector = () => {
               }`}
             >
               {method.name}
-            </button>
+            </Button>
           ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,41 +1,64 @@
 import React, { useState } from "react";
-import TourOperatorContactForm from "./TourOperatorContactForm";
-import Button from "../shared/Button";
+import { TextField, Typography } from "@mui/material";
 
 const TourOperatorContactFormCard = () => {
-  const [contacts, setContacts] = useState([{ id: 1 }]);
+  const [contact, setContact] = useState({
+    name: "",
+    phone: "",
+    email: "",
+  });
 
-  const addNewContact = () => {
-    if (contacts.length < 4) {
-      setContacts([...contacts, { id: Date.now() }]);
-    }
-  };
-
-  const removeContact = (id) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setContact((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
-    <div className="p-6 space-y-8 max-w-9xl border-4 border-[#1D777D] rounded-lg mx-auto">
-      <h2 className="text-sm font-semibold mb-4">Contact details for the tour operator (up to 4 contact)<span className="text-red-500">*</span></h2>
-      <TourOperatorContactForm />
+    <div className="mb-4 md:mb-8 space-y-4">
+      <Typography className="text-base md:text-sm text-gray-800">
+        Contact Information <span className="text-red-500">*</span>
+      </Typography>
 
-      {contacts.slice(1).map((contact) => (
-        <div key={contact.id} className="relative">
-          <TourOperatorContactForm />
-          <div className="flex justify-end mt-2">
-            <Button
-              text="Delete"
-              className="bg-red-600 hover:bg-red-500"
-              onClick={() => removeContact(contact.id)}
-            />
-          </div>
-        </div>
-      ))}
+      {/* Contact Name */}
+      <TextField
+        label="Contact Name"
+        name="name"
+        variant="outlined"
+        fullWidth
+        value={contact.name}
+        onChange={handleChange}
+        placeholder="Enter contact name"
+        className="bg-white"
+      />
 
-      {contacts.length < 4 && (
-        <Button text="Add Contact" onClick={addNewContact} />
-      )}
+      {/* Contact Phone */}
+      <TextField
+        label="Phone Number"
+        name="phone"
+        type="tel"
+        variant="outlined"
+        fullWidth
+        value={contact.phone}
+        onChange={handleChange}
+        placeholder="Enter phone number"
+        className="bg-white"
+      />
+
+      {/* Contact Email */}
+      <TextField
+        label="Email Address"
+        name="email"
+        type="email"
+        variant="outlined"
+        fullWidth
+        value={contact.email}
+        onChange={handleChange}
+        placeholder="Enter email address"
+        className="bg-white"
+      />
     </div>
   );
 };

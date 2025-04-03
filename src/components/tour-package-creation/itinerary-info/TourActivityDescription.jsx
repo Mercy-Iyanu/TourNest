@@ -8,14 +8,15 @@ const TourActivityDescription = () => {
 
   const modules = {
     toolbar: [
-      [{ header: '1' }, { header: '2' }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['bold', 'italic', 'underline', 'strike'],
+      [{ header: [1, 2, 3, 4, false] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["bold", "italic", "underline", "strike"],
       [{ align: [] }],
-      ['link'],
-      ['blockquote'],
-      [{ script: 'sub' }, { script: 'super' }],
-      ['image'],
+      ["link", "image", "video"],
+      ["blockquote", "code-block"],
+      [{ script: "sub" }, { script: "super" }],
+      [{ color: [] }, { background: [] }],
+      ["table"],
     ],
   };
 

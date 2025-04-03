@@ -1,34 +1,42 @@
+import { Button } from "@mui/material";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const FormNavigation = ({ currentStep, totalSteps, onNext, onPrevious, onSubmit }) => {
   return (
-    <div className="flex justify-between mt-6">
-      {currentStep > 1 && (
-        <button
-          onClick={onPrevious}
-          className="bg-gray-500 text-white hover:bg-gray-600 px-6 py-3 rounded-lg flex items-center space-x-2"
-        >
-          <FaArrowLeft />
-          <span>Previous</span>
-        </button>
-      )}
+    <div className="sticky bottom-0 left-0 w-full bg-white shadow-md py-3 mb-4">
+      <div className="max-w-screen-lg mx-auto flex justify-center space-x-4">
+        {currentStep > 1 && (
+          <Button
+            onClick={onPrevious}
+            variant="contained"
+            color="secondary"
+            className="flex items-center space-x-2 bg-gray-500 hover:bg-gray-600"
+          >
+            <FaArrowLeft />
+            <span>Previous</span>
+          </Button>
+        )}
 
-      {currentStep < totalSteps ? (
-        <button
-          onClick={onNext}
-          className="bg-[#1D777D] text-white hover:bg-[#145b5f] px-6 py-3 rounded-lg flex items-center space-x-2"
-        >
-          <span>Next</span>
-          <FaArrowRight />
-        </button>
-      ) : (
-        <button
-          onClick={onSubmit}
-          className="bg-green-600 text-white hover:bg-green-700 px-6 py-3 rounded-lg"
-        >
-          Create Package
-        </button>
-      )}
+        {currentStep < totalSteps ? (
+          <Button
+            onClick={onNext}
+            variant="contained"
+            className="flex items-center space-x-2 bg-[#1D777D] hover:bg-[#145b5f]"
+          >
+            <span>Next</span>
+            <FaArrowRight />
+          </Button>
+        ) : (
+          <Button
+            onClick={onSubmit}
+            variant="contained"
+            color="success"
+            className="bg-green-600 hover:bg-green-700"
+          >
+            Create Package
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

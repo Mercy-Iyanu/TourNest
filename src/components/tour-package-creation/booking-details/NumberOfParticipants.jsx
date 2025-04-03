@@ -1,37 +1,64 @@
-import React from "react";
-import { FaUsers } from "react-icons/fa";
+import React, { useState } from "react";
+import { TextField, Typography, Box } from "@mui/material";
 
 const NumberOfParticipants = () => {
-  return (
-    <div className="mb-6 flex gap-6">
-      <div className="mb-4">
-        <label className="font-semibold text-sm block mb-2">
-          Minimum No. of Participants <span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
-          <input
-            type="number"
-            placeholder="e.g 5"
-            className="w-full p-3 pl-10 rounded-md border border-gray-300 focus:ring-2 focus:ring-[#1D777D] focus:outline-none text-base"
-          />
-          <FaUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-        </div>
-      </div>
+  const [minGroupSize, setMinGroupSize] = useState("");
+  const [maxGroupSize, setMaxGroupSize] = useState("");
 
-      <div>
-        <label className="font-semibold text-sm block mb-2">
-          Maximum No. of Participants <span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
-          <input
+  const handleMinChange = (event) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      setMinGroupSize(value);
+    }
+  };
+
+  const handleMaxChange = (event) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) {
+      setMaxGroupSize(value);
+    }
+  };
+
+  return (
+    <Box className="mb-4 md:mb-8">
+      <Typography className="text-base md:text-sm text-gray-800">
+        Group Size <span className="text-red-500">*</span>
+      </Typography>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Typography className="text-sm text-gray-700 mb-4">
+            Minimum Group Size
+          </Typography>
+          <TextField
+            fullWidth
             type="number"
-            placeholder="e.g 20"
-            className="w-full p-3 pl-10 rounded-md border border-gray-300 focus:ring-2 focus:ring-[#1D777D] focus:outline-none text-base"
+            variant="outlined"
+            placeholder="Enter min group size"
+            value={minGroupSize}
+            onChange={handleMinChange}
+            inputProps={{ min: 1 }}
+            className="bg-white rounded-md"
           />
-          <FaUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        </div>
+
+        <div>
+          <Typography className="text-xs text-gray-700 mb-1">
+            Maximum Group Size
+          </Typography>
+          <TextField
+            fullWidth
+            type="number"
+            variant="outlined"
+            placeholder="Enter max group size"
+            value={maxGroupSize}
+            onChange={handleMaxChange}
+            inputProps={{ min: minGroupSize || 1 }}
+            className="bg-white rounded-md"
+          />
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
 

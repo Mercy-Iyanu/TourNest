@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Chip, Typography, TextField } from "@mui/material";
 
 const TourTags = ({ onTagsChange }) => {
   const availableTags = [
@@ -12,6 +13,7 @@ const TourTags = ({ onTagsChange }) => {
   ];
 
   const [selectedTags, setSelectedTags] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   const toggleTag = (tag) => {
     const updatedTags = selectedTags.includes(tag)
@@ -22,17 +24,52 @@ const TourTags = ({ onTagsChange }) => {
     onTagsChange(updatedTags);
   };
 
+  const handleAddTag = (event) => {
+    if (event.key === "Enter" && inputValue.trim()) {
+      event.preventDefault();
+      if (!selectedTags.includes(inputValue.trim())) {
+        setSelectedTags([...selectedTags, inputValue.trim()]);
+      }
+      setInputValue("");
+    }
+  };
+
   return (
-    <div className="p-4">
-      <h3 className="text-sm font-semibold mb-2">Tags related to the tour for easier search<span className="text-red-500">*</span></h3>
+    <div className="mb-4 md:mb-8 space-y-4">
+      <Typography className="text-base md:text-sm text-gray-800">
+        Tour Tags <span className="text-red-500">*</span>
+      </Typography>
+
+      <TextField
+        label="Add a tag"
+        variant="outlined"
+        fullWidth
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleAddTag}
+        placeholder="Type a tag and press Enter"
+        className="bg-white"
+      />
+
       <div className="flex flex-wrap gap-2">
+        {selectedTags.map((tag, index) => (
+          <Chip
+            key={index}
+            label={tag}
+            onDelete={() => toggleTag(tag)}
+            className="bg-teal-600 text-white"
+          />
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2 mt-4">
         {availableTags.map((tag) => (
           <button
             key={tag}
-            className={`px-4 py-2 text-sm font-medium rounded-lg border ${
+            className={`px-4 py-2 text-sm font-medium rounded-lg border transition-all ${
               selectedTags.includes(tag)
                 ? "bg-[#1D777D] text-white border-[#1D777D]"
-                : "bg-white text-gray-800 border-gray-400"
+                : "bg-white text-gray-800 border-gray-400 hover:bg-gray-200"
             }`}
             onClick={() => toggleTag(tag)}
           >

@@ -54,11 +54,11 @@ const ParentTourPackageForm = () => {
     return (
         <div className="p-6">
             <h2 className="text-xl font-semibold mb-4">Create Tour Package</h2>
-            <Breadcrumbs aria-label="breadcrumb" className="text-blue">
-                <Link underline="hover" color="inherit" onClick={() => handleNavigation('/')}>
+            <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" className="text-blue" onClick={() => handleNavigation('/')}>
                     Dashboard
                 </Link>
-                <Typography color="text.primary">Create Package</Typography>
+                <Typography>Create Package</Typography>
             </Breadcrumbs>
           <StepIndicator currentStep={currentStep} steps={steps} onStepClick={goToStep} />
           {renderFormStep()}
