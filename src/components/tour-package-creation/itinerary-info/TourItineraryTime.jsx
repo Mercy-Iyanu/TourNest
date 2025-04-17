@@ -3,14 +3,7 @@ import { TextField, FormControl, InputLabel, Box, Typography } from '@mui/materi
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DesktopDateTimePicker } from "@mui/x-date-pickers";
 
-const TourItineraryTime = () => {
-  const [location, setLocation] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-
-  const handleStartTimeChange = (newValue) => setStartTime(newValue);
-  const handleEndTimeChange = (newValue) => setEndTime(newValue);
-
+const TourItineraryTime = ({ location, startTime, endTime, onChange }) => {
   return (
     <div>
       <Box className="mb-4 md:mb-8">
@@ -22,7 +15,7 @@ const TourItineraryTime = () => {
           required
           variant="outlined"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          onChange={(e) => onChange("location", e.target.value)}
           placeholder="e.g Obudu Ranch gate"
           id="location"
         />
@@ -35,7 +28,7 @@ const TourItineraryTime = () => {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDateTimePicker
               value={startTime}
-              onChange={handleStartTimeChange}
+              onChange={(newVal) => onChange("startTime", newVal)}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -54,7 +47,7 @@ const TourItineraryTime = () => {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDateTimePicker
               value={endTime}
-              onChange={handleEndTimeChange}
+              onChange={(newVal) => onChange("endTime", newVal)}
               renderInput={(params) => (
                 <TextField
                   {...params}

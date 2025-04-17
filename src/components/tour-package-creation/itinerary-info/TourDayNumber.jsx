@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { TextField, Box, Typography } from '@mui/material';
 
-const TourDayNumber = () => {
-  const [day, setDay] = useState('');
-
+const TourDayNumber = ({ value, onChange }) => {
   const handleChange = (event) => {
     if (/^\d*$/.test(event.target.value)) {
-      setDay(event.target.value);
+      onChange(event.target.value);
     }
   };
   return (
@@ -19,7 +17,7 @@ const TourDayNumber = () => {
         fullWidth
         required
         variant="outlined"
-        value={day}
+        value={value}
         onChange={handleChange}
         placeholder="e.g. 1"
         className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

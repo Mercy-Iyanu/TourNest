@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; 
 import { Box, Typography, FormControl } from '@mui/material';
 
-const TourDescriptionField = () => {
+const TourDescriptionField = ({ value, onChange }) => {
   const [text, setText] = useState('');
 
   const modules = {
@@ -29,6 +29,8 @@ const TourDescriptionField = () => {
       </Typography>
       <FormControl fullWidth required>
         <ReactQuill
+          value={value}
+          onChange={onChange}
           modules={modules}
           placeholder='e.g With rich natural vegetation and a picturesque view, Obudu is increasingly becoming popular '
           className="h-[200px] w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-[#1D777D] focus:outline-non"

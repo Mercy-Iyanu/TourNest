@@ -3,9 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Box, Typography, FormControl } from '@mui/material';
 
-const TourActivityDescription = () => {
-  const [text, setText] = useState('');
-
+const TourActivityDescription = ({ value, onChange }) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, false] }],
@@ -27,6 +25,8 @@ const TourActivityDescription = () => {
       </Typography>
       <FormControl fullWidth required>
         <ReactQuill
+          value={value}
+          onChange={onChange}
           modules={modules}
           placeholder='e.g  Enjoy the beautiful sights at Obudu Cattle Ranch'
           className="h-[200px] w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-[#1D777D] focus:outline-non" 

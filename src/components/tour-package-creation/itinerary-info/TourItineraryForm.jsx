@@ -4,23 +4,32 @@ import TourActivityTitle from "./TourActivityTitle";
 import TourActivityDescription from "./TourActivityDescription";
 import TourItineraryTime from "./TourItineraryTime";
 
-const TourItineraryForm = () => {
-  const [itineraries, setItineraries] = useState([{ id: 1 }]);
+const TourItineraryForm = ({ formData, setFormData }) => {
 
-  const addNewItinerary = () => {
-    setItineraries([...itineraries, { id: Date.now() }]);
-  };
-
-  const removeItinerary = (id) => {
-    setItineraries(itineraries.filter((itinerary) => itinerary.id !== id));
+  const handleChange = (field, value) => {
+    setFormData({ [field]: value });
   };
 
   return (
     <div className="p-6 max-w-screen-lg mx-auto">
-        <TourDayNumber />
-        <TourActivityTitle />
-        <TourActivityDescription />
-        <TourItineraryTime />
+        <TourDayNumber 
+          value={formData?.day || ''} 
+          onChange={(val) => handleChange('day', val)}
+        />
+        <TourActivityTitle 
+          value={formData?.title || ''} 
+          onChange={(val) => handleChange('title', val)}
+        />
+        <TourActivityDescription 
+          value={formData?.description || ''} 
+          onChange={(val) => handleChange('description', val)}
+        />
+        <TourItineraryTime 
+          location={formData?.location || ''}
+          startTime={formData?.startTime || ''}
+          endTime={formData?.endTime || ''}
+          onChange={(field, val) => handleChange(field, val)}
+        />
     </div>
   );
 };

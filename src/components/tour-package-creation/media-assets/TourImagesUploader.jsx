@@ -2,19 +2,15 @@ import React, { useState } from "react";
 import { Typography, Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const TourImagesUploader = () => {
-  const [images, setImages] = useState([]);
-
-  // Handle image selection
+const TourImagesUploader = ({ images, setImages }) => {
   const handleImageUpload = (event) => {
     const files = event.target.files;
     if (files) {
-      const newImages = [...images, ...Array.from(files).map((file) => URL.createObjectURL(file))];
+      const newImages = [...images, ...Array.from(files)];
       setImages(newImages);
     }
   };
 
-  // Remove image from the list
   const handleRemoveImage = (index) => {
     const updatedImages = images.filter((_, i) => i !== index);
     setImages(updatedImages);
@@ -26,7 +22,6 @@ const TourImagesUploader = () => {
         Tour Images <span className="text-red-500">*</span>
       </Typography>
 
-      {/* Upload Button */}
       <div className="mb-4">
         <input
           type="file"
@@ -43,12 +38,11 @@ const TourImagesUploader = () => {
         </label>
       </div>
 
-      {/* Image Preview Grid */}
       {images.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
           {images.map((image, index) => (
             <div key={index} className="relative border rounded-lg overflow-hidden">
-              <img src={image} alt={`tour-img-${index}`} className="w-full h-32 object-cover" />
+              <img src={URL.createObjectURL(image)} alt={`tour-img-${index}`} className="w-full h-32 object-cover" />
               <IconButton
                 size="small"
                 className="absolute top-1 right-1 bg-gray-800 text-white hover:bg-red-600"

@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { Typography, Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const TourVideosUploader = () => {
-  const [videos, setVideos] = useState([]);
-
-  // Handle video selection
+const TourVideosUploader = ({ videos, setVideos }) => {
   const handleVideoUpload = (event) => {
     const files = event.target.files;
     if (files) {
-      const newVideos = [...videos, ...Array.from(files).map((file) => URL.createObjectURL(file))];
+      const newVideos = [...videos, ...Array.from(files)];
       setVideos(newVideos);
     }
   };
@@ -26,7 +23,6 @@ const TourVideosUploader = () => {
         Tour Videos <span className="text-red-500">*</span>
       </Typography>
 
-      {/* Upload Button */}
       <div className="mb-4">
         <input
           type="file"
@@ -43,12 +39,15 @@ const TourVideosUploader = () => {
         </label>
       </div>
 
-      {/* Video Preview Grid */}
       {videos.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           {videos.map((video, index) => (
             <div key={index} className="relative border rounded-lg overflow-hidden">
-              <video src={video} controls className="w-full h-32 object-cover" />
+              <video 
+                src={URL.createObjectURL(video)} 
+                controls 
+                className="w-full h-32 object-cover" 
+              />
               <IconButton
                 size="small"
                 className="absolute top-1 right-1 bg-gray-800 text-white hover:bg-red-600"

@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography, Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
-const AdditionalFilesUploader = () => {
-  const [files, setFiles] = useState([]);
-
-  // Handle file selection
+const AdditionalFilesUploader = ({ files, setFiles }) => {
   const handleFileUpload = (event) => {
     const newFiles = Array.from(event.target.files).map((file) => ({
       name: file.name,
@@ -15,7 +12,6 @@ const AdditionalFilesUploader = () => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
-  // Remove a file
   const handleRemoveFile = (index) => {
     const updatedFiles = files.filter((_, i) => i !== index);
     setFiles(updatedFiles);
@@ -27,7 +23,6 @@ const AdditionalFilesUploader = () => {
         Additional Files (PDFs, Brochures, etc.) <span className="text-red-500">*</span>
       </Typography>
 
-      {/* Upload Button */}
       <div className="mb-4">
         <input
           type="file"
@@ -44,7 +39,6 @@ const AdditionalFilesUploader = () => {
         </label>
       </div>
 
-      {/* File List */}
       {files.length > 0 && (
         <div className="space-y-2 mt-4">
           {files.map((file, index) => (

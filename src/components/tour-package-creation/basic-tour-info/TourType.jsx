@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 
-const TourType = () => {
+const TourType = ({ value, onChange }) => {
     const [tourType, setTourType] = React.useState('');
   
     const handleChange = (event) => {
@@ -13,8 +13,8 @@ const TourType = () => {
         <InputLabel id="tour-type-label">Tour Type</InputLabel>
         <Select
           labelId="tour-type-label"
-          value={tourType}
-          onChange={handleChange}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           label="Select a suitable tour type"
           className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >

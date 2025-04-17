@@ -1,44 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextField, Box, Typography, Grid, Checkbox, FormControlLabel } from "@mui/material";
 
-const TourDateDuration = () => {
-  const [availability, setAvailability] = useState([
-    {
-      start_date: "",
-      end_date: "",
-      is_available: true,
-      max_guests: "",
-    },
-  ]);
-
-  const handleDateChange = (index, field, value) => {
-    const newAvailability = [...availability];
-    newAvailability[index][field] = value;
-    setAvailability(newAvailability);
-  };
-
-  const handleAvailabilityChange = (index) => {
-    const newAvailability = [...availability];
-    newAvailability[index].is_available = !newAvailability[index].is_available;
-    setAvailability(newAvailability);
-  };
-
-  const handleMaxGuestsChange = (index, value) => {
-    const newAvailability = [...availability];
-    newAvailability[index].max_guests = value;
-    setAvailability(newAvailability);
+const TourDateDuration = ({ availability, onChange }) => {
+  const handleChange = (index, field, value) => {
+    const updated = [...availability];
+    updated[index][field] = value;
+    onChange(updated);
   };
 
   const handleAddAvailability = () => {
-    setAvailability([
-      ...availability,
-      {
+    const updated = [...availability, {
         start_date: "",
         end_date: "",
         is_available: true,
         max_guests: "",
       },
-    ]);
+    ];
+    onChange(updated);
   };
 
   return (
@@ -56,7 +34,7 @@ const TourDateDuration = () => {
               type="datetime-local"
               fullWidth
               value={item.start_date}
-              onChange={(e) => handleDateChange(index, "start_date", e.target.value)}
+              onChange={(e) => handleChange(index, "start_date", e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -69,7 +47,7 @@ const TourDateDuration = () => {
               type="datetime-local"
               fullWidth
               value={item.end_date}
-              onChange={(e) => handleDateChange(index, "end_date", e.target.value)}
+              onChange={(e) => handleChange(index, "end_date", e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -81,7 +59,7 @@ const TourDateDuration = () => {
               control={
                 <Checkbox
                   checked={item.is_available}
-                  onChange={() => handleAvailabilityChange(index)}
+                  onChange={() => handleChange(index, "is_available", !item.is_available)}
                 />
               }
               label="Available"
@@ -93,7 +71,7 @@ const TourDateDuration = () => {
               type="number"
               fullWidth
               value={item.max_guests}
-              onChange={(e) => handleMaxGuestsChange(index, e.target.value)}
+              onChange={(e) => handleChange(index, "max_guests", e.target.value)}
               className="bg-white"
             />
           </Grid>
@@ -102,6 +80,7 @@ const TourDateDuration = () => {
 
       <div className="flex justify-end mt-4">
         <button
+        disabled
           type="button"
           onClick={handleAddAvailability}
           className="px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"

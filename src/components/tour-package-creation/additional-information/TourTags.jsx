@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Chip, Typography, TextField } from "@mui/material";
 
-const TourTags = ({ onTagsChange }) => {
+const TourTags = ({ selectedTags, setSelectedTags }) => {
   const availableTags = [
     "Adventure", "Luxury", "Family", "Hiking", "Beach", "Wildlife", "Cultural", "Historical", "Nature",
     "City Tour", "Safari", "Road Trip", "Cruise", "Eco-Tour", "Island Hopping", "Backpacking", "Winter Getaway",
@@ -11,8 +11,6 @@ const TourTags = ({ onTagsChange }) => {
     "Cave Exploration", "Jungle Safari", "Wine Tasting", "Bird Watching", "Volcano Tour", "Fishing", "Rock Climbing",
     "Motorcycle Tour", "Train Journey", "Nightlife Tour", "Urban Exploration", "Hot Air Balloon Ride"
   ];
-
-  const [selectedTags, setSelectedTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
   const toggleTag = (tag) => {
@@ -21,7 +19,6 @@ const TourTags = ({ onTagsChange }) => {
       : [...selectedTags, tag];
 
     setSelectedTags(updatedTags);
-    onTagsChange(updatedTags);
   };
 
   const handleAddTag = (event) => {

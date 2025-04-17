@@ -3,6 +3,7 @@ import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
@@ -18,31 +19,43 @@ const Login = ({ onLogin }) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     return (
-        <div className='flex justify-center items-center min-h-screen bg-gray-100'>
-            <div className='shadow-xl p-10 bg-white rounded-lg max-w-md w-full text-gray-700'>
-                <h2 className='text-3xl font-bold text-center'>Welcome Back</h2>
-                <p className='text-center text-gray-500 mt-2'>Join 400+ tour owners to create enjoyable tourist experiences!</p>
-                
-                <div className='flex flex-col gap-4 mt-6'> 
-                    <button onClick={GoogleLogin} 
-                        className='text-white bg-red-600 p-3 w-full font-medium rounded-lg flex justify-center items-center gap-2 hover:bg-red-700 transition'
-                    >
-                        <FaGoogle className='text-xl'/> 
-                        Sign in with Google
-                    </button>
-                    <button 
-                        className='text-white bg-blue-700 p-3 w-full font-medium rounded-lg flex justify-center items-center gap-2 hover:bg-blue-800 transition'
-                    >
-                        <FaFacebook className='text-xl'/> 
-                        Sign in with Facebook
-                    </button>
-                </div>
-                
-                <p className='text-center text-gray-500 mt-4'>Don't have an account? <Link to='/signup' className='text-blue-600 hover:underline'>Sign up</Link></p>
-            </div>
+        <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+            <Card className="shadow-xl max-w-md w-full p-6">
+                <CardContent>
+                    <Typography variant="h4" className="font-bold text-center mb-2">
+                        Welcome Back
+                    </Typography>
+                    <Typography variant="body2" className="text-center text-gray-500 mb-4">
+                        Join 400+ tour owners to create enjoyable tourist experiences!
+                    </Typography>
+
+                    <div className="flex flex-col gap-4 mt-4 mb-4">
+                        <Button 
+                            onClick={GoogleLogin} 
+                            variant="contained" 
+                            color="error" 
+                            className="flex items-center gap-6 w-full py-2"
+                        >
+                            <FaGoogle className='text-lg' /> Sign in with Google
+                        </Button>
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            className="flex items-center gap-6 w-full py-2"
+                        >
+                            <FaFacebook className='text-lg' /> Sign in with Facebook
+                        </Button>
+                    </div>
+
+                    <Typography variant="body2" className="text-center text-gray-500 mt-4">
+                        Don't have an account?{' '}
+                        <Link to='/signup' className='text-blue-600 hover:underline'>Sign up</Link>
+                    </Typography>
+                </CardContent>
+            </Card>
         </div>
     );
 }

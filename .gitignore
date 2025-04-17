@@ -21,3 +21,4 @@ git remote add origin https://github.com/SabreCWA-Team/sabre-tour-aggregator.git
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.qodo

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import currencyCodes from 'currency-codes';
 import { FormControl, InputLabel, MenuItem, Select, Box } from '@mui/material';
 
-const TourCurrencyDropdown = ({ currency, onChange = () => {} }) => {  
+const TourCurrencyDropdown = ({ currency, onChange }) => {  
   const [selectedCurrency, setSelectedCurrency] = useState(currency || '');
 
   useEffect(() => {

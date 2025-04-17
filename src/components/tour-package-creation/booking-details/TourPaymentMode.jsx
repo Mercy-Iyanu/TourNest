@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { Box, Typography, Button } from "@mui/material";
 
@@ -15,17 +15,15 @@ const paymentOptions = [
   { id: 10, name: "Western Union", type: "international" },
 ];
 
-const PaymentMethodSelector = () => {
-  const [selectedMethods, setSelectedMethods] = useState([]);
-
+const PaymentMethodSelector = ({ selectedMethods, onChange }) => {
   const handleSelect = (method) => {
     if (!selectedMethods.find((m) => m.id === method.id)) {
-      setSelectedMethods([...selectedMethods, method]);
+      onChange([...selectedMethods, method]);
     }
   };
 
   const handleRemove = (method) => {
-    setSelectedMethods(selectedMethods.filter((m) => m.id !== method.id));
+    onChange(selectedMethods.filter((m) => m.id !== method.id));
   };
 
   return (
@@ -34,7 +32,6 @@ const PaymentMethodSelector = () => {
         Accepted Payment Methods <span className="text-red-500">*</span>
       </Typography>
 
-      {/* Selected Payment Methods */}
       {selectedMethods.length > 0 && (
         <Box className="mb-4 p-3 border rounded-lg bg-gray-100 flex flex-wrap gap-2">
           {selectedMethods.map((method) => (
@@ -52,7 +49,6 @@ const PaymentMethodSelector = () => {
         </Box>
       )}
 
-      {/* Payment Method List */}
       <Box className="flex flex-wrap gap-3">
         {paymentOptions
           .filter((method) => !selectedMethods.some((m) => m.id === method.id))

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { TextField, Box, Typography } from "@mui/material";
 
-const TourCostPerPerson = () => {
+const TourCostPerPerson = ({ value, onChange }) => {
   const [price, setPrice] = useState("");
 
   const handleChange = (event) => {
@@ -19,9 +19,8 @@ const TourCostPerPerson = () => {
         required
         type="number"
         variant="outlined"
-        value={price}
-        onChange={handleChange}
-        placeholder="Enter price"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         inputProps={{ min: "0", step: "0.01" }}
         className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       />

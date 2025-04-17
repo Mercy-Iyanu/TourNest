@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Box, Typography } from "@mui/material";
 
-const TourCancellationTerms = () => {
+const TourCancellationTerms = ({ value, onChange }) => {
   const [cancellationPolicy, setCancellationPolicy] = useState("");
 
   const modules = {
@@ -27,7 +27,7 @@ const TourCancellationTerms = () => {
       </Typography>
 
       <ReactQuill
-        value={cancellationPolicy}
+        value={value}
         onChange={setCancellationPolicy}
         modules={modules}
         placeholder="Enter cancellation policy..."

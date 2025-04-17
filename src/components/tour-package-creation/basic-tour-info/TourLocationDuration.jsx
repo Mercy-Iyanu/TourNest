@@ -1,47 +1,32 @@
 import React, {useState, useEffect} from "react";
-import { Box, Typography, TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import { Box, Typography, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Country, State, City } from 'country-state-city';
 
-const TourLocationDuration = () => {
+const TourLocationDuration = ({ locationData, setLocationData }) => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [duration, setDuration] = React.useState('');
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+
+  const { country, state, city, duration } = locationData;
 
   useEffect(() => {
-    const countryList = Country.getAllCountries();
-    setCountries(countryList);
+    setCountries(Country.getAllCountries());
   }, []);
+
   useEffect(() => {
-    if (selectedCountry) {
-      const stateList = State.getStatesOfCountry(selectedCountry);
-      setStates(stateList);
-      setSelectedState('');
+    if (country) {
+      setStates(State.getStatesOfCountry(country));
+      setLocationData({ state: '', city: '' });
       setCities([]);
     }
-  }, [selectedCountry]);
+  }, [country]);
+
   useEffect(() => {
-    if (selectedState) {
-      const cityList = City.getCitiesOfState(selectedCountry, selectedState);
-      setCities(cityList);
-      setSelectedCity('');
+    if (state) {
+      setCities(City.getCitiesOfState(country, state));
+      setLocationData({ city: '' });
     }
-  }, [selectedState, selectedCountry]);
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
-  };
-  const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
-  };
-  const handleCityChange = (event) => {
-    setSelectedCity(event.target.value);
-  };
-
-  const handleDurationChange = (event) => setDuration(event.target.value);
-
+  }, [state]);
   return (
     <Box className="space-y-6">
       <Box className="mb-6">
@@ -49,76 +34,67 @@ const TourLocationDuration = () => {
           <InputLabel id="country-label">Country</InputLabel>
           <Select
             labelId="country-label"
-            value={selectedCountry}
-            onChange={handleCountryChange}
+            value={country || ''}
+            onChange={(e) => setLocationData({ country: e.target.value })}
             label="Country"
             className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {countries.map((country) => (
-              <MenuItem key={country.isoCode} value={country.isoCode}>
-                {country.name}
-              </MenuItem>
+            {countries.map((c) => (
+              <MenuItem key={c.isoCode} value={c.isoCode}>{c.name}</MenuItem>
             ))}
           </Select>
         </FormControl>
       </Box>
 
-      {selectedCountry && (
-        <Box className="mb-6">
-          <FormControl fullWidth required>
-            <InputLabel id="state-label">State</InputLabel>
-            <Select
-              labelId="state-label"
-              value={selectedState}
-              onChange={handleStateChange}
-              label="State"
-              className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {states.map((state) => (
-                <MenuItem key={state.isoCode} value={state.isoCode}>
-                  {state.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-      )}
+      <Box className="mb-6">
+        <FormControl fullWidth required>
+          <InputLabel id="state-label">State</InputLabel>
+          <Select
+            labelId="state-label"
+            value={state || ''}
+            onChange={(e) => setLocationData({ state: e.target.value })}
+            label="State"
+            className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {states.map((s) => (
+              <MenuItem key={s.isoCode} value={s.isoCode}>{s.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
 
-      {selectedState && (
         <Box className="mb-6">
-          <FormControl fullWidth required>
+          <FormControl fullWidth>
             <InputLabel id="city-label">City</InputLabel>
             <Select
               labelId="city-label"
-              value={selectedCity}
-              onChange={handleCityChange}
+              value={city || ''}
+              onChange={(e) => setLocationData({ city: e.target.value })}
               label="City"
               className="bg-white rounded-md border-1 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {cities.map((city) => (
-                <MenuItem key={city.id} value={city.id}>
-                  {city.name}
-                </MenuItem>
+              {cities.map((c) => (
+                <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
         </Box>
-      )}
+
       <Box className="mb-6">
-            <Typography className="text-base md:text-sm text-gray-800">
-              Duration <span className="text-red-500">*</span>
-            </Typography>
-            <TextField
-              fullWidth
-              required
-              variant="outlined"
-              type="number"
-              value={duration}
-              onChange={handleDurationChange}
-              placeholder="e.g 5 hours"
-              className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </Box>
+        <Typography className="text-base md:text-sm text-gray-800">
+          Duration <span className="text-red-500">*</span>
+        </Typography>
+        <TextField
+          fullWidth
+          required
+          variant="outlined"
+          type="number"
+          value={duration || ''}
+          onChange={(e) => setLocationData({ duration: e.target.value })}
+          placeholder="e.g 5 hours"
+          className="bg-white rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      </Box>
     </Box>
   );
 };

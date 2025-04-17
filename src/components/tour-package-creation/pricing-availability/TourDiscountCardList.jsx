@@ -1,27 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextField, Box, Typography, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 
-const TourDiscountCardList = () => {
-  const [discountType, setDiscountType] = useState('');
-  const [discountValue, setDiscountValue] = useState('');
-  const [minGroupSize, setMinGroupSize] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-
-  const handleDiscountTypeChange = (event) => {
-    setDiscountType(event.target.value);
-  };
-  const handleDiscountValueChange = (event) => {
-    setDiscountValue(event.target.value);
-  };
-  const handleMinGroupSizeChange = (event) => {
-    setMinGroupSize(event.target.value);
-  };
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-  };
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
+const TourDiscountCardList = ({ data, onChange }) => {
+  const handleChange = (field, value) => {
+    onChange(field, value);
   };
 
   return (
@@ -32,8 +14,8 @@ const TourDiscountCardList = () => {
         <FormControl fullWidth variant="outlined">
           <InputLabel>Discount Type</InputLabel>
           <Select
-            value={discountType}
-            onChange={handleDiscountTypeChange}
+            value={data?.discountType || ''}
+            onChange={(e) => handleChange('discountType', e.target.value)}
             label="Discount Type"
             className="mb-4"
           >
@@ -48,22 +30,22 @@ const TourDiscountCardList = () => {
           label="Discount Value (%)"
           type="number"
           fullWidth
-          value={discountValue}
-          onChange={handleDiscountValueChange}
+          value={data?.discountValue || ''}
+          onChange={(e) => handleChange('discountValue', e.target.value)}
           placeholder="Enter discount value"
           inputProps={{ min: "0", step: "0.01" }}
           variant="outlined"
         />
       </div>
 
-      {discountType === "group_size" && (
+      {data.discountType === "group_size" && (
         <div className="mb-4">
           <TextField
             label="Minimum Group Size"
             type="number"
             fullWidth
-            value={minGroupSize}
-            onChange={handleMinGroupSizeChange}
+            value={data.minGroupSize}
+            onChange={(e) => handleChange('minGroupSize', e.target.value)}
             placeholder="Enter minimum group size"
             inputProps={{ min: "1" }}
             variant="outlined"
@@ -71,15 +53,15 @@ const TourDiscountCardList = () => {
         </div>
       )}
 
-      {discountType === "advance_booking" && (
+      {data.discountType === "advance_booking" && (
         <>
           <div className="mb-4">
             <TextField
               label="Start Date"
               type="date"
               fullWidth
-              value={startDate}
-              onChange={handleStartDateChange}
+              value={data.startDate}
+              onChange={(e) => handleChange('startDate', e.target.value)}
               variant="outlined"
               InputLabelProps={{ shrink: true }}
             />
@@ -90,8 +72,8 @@ const TourDiscountCardList = () => {
               label="End Date"
               type="date"
               fullWidth
-              value={endDate}
-              onChange={handleEndDateChange}
+              value={data.endDate}
+              onChange={(e) => handleChange('endDate', e.target.value)}
               variant="outlined"
               InputLabelProps={{ shrink: true }}
             />

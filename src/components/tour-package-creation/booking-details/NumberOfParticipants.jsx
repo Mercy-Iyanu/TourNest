@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextField, Typography, Box } from "@mui/material";
 
-const NumberOfParticipants = () => {
-  const [minGroupSize, setMinGroupSize] = useState("");
-  const [maxGroupSize, setMaxGroupSize] = useState("");
+const NumberOfParticipants = ({minValue, maxValue, onMinChange, onMaxChange }) => {
 
   const handleMinChange = (event) => {
     const value = event.target.value;
     if (/^\d*$/.test(value)) {
-      setMinGroupSize(value);
+      onMinChange(value);
     }
   };
 
   const handleMaxChange = (event) => {
     const value = event.target.value;
     if (/^\d*$/.test(value)) {
-      setMaxGroupSize(value);
+      onMaxChange(value);
     }
   };
 
@@ -28,14 +26,14 @@ const NumberOfParticipants = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <Typography className="text-sm text-gray-700 mb-4">
-            Minimum Group Size
+            Minimum G9roup Size
           </Typography>
           <TextField
             fullWidth
             type="number"
             variant="outlined"
             placeholder="Enter min group size"
-            value={minGroupSize}
+            value={minValue}
             onChange={handleMinChange}
             inputProps={{ min: 1 }}
             className="bg-white rounded-md"
@@ -51,9 +49,9 @@ const NumberOfParticipants = () => {
             type="number"
             variant="outlined"
             placeholder="Enter max group size"
-            value={maxGroupSize}
+            value={maxValue}
             onChange={handleMaxChange}
-            inputProps={{ min: minGroupSize || 1 }}
+            inputProps={{ min: minValue || 1 }}
             className="bg-white rounded-md"
           />
         </div>

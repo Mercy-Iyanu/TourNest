@@ -3,9 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { FormControl, Typography, Box } from "@mui/material";
 
-const Requirements = () => {
-  const [requirements, setRequirements] = useState("");
-
+const Requirements = ({ requirements, setRequirements }) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, false] }],
