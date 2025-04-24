@@ -103,8 +103,38 @@ const ParentTourPackageForm = () => {
 
     const handleSubmit = () => {
         console.log("Final Form Data:", formData);
+        const newId = Date.now().toString();
+
+        const tablePackage = {
+            id: newId,
+            name: formData.basicInfo.tour_name,
+            location: `${formData.basicInfo.city}, ${formData.basicInfo.state}, ${formData.basicInfo.country}`,
+            duration: formData.basicInfo.duration,
+            price: `${formData.pricing.currency}${formData.pricing.pricePerPerson}`,
+            status: `${formData.is_available}`,
+        };
+
+        const fullPackage = {
+            id: newId,
+            ...formData,
+        };
+
+        const existingPackages = JSON.parse(localStorage.getItem("tourPackages")) || [];
+        localStorage.setItem("tourPackages", JSON.stringify([...existingPackages, tablePackage]));
+
+        const existingFullPackages = JSON.parse(localStorage.getItem("fullTourPackages")) || [];
+        localStorage.setItem("fullTourPackages", JSON.stringify(
+            {
+                ...existingFullPackages,
+                [newId]: fullPackage
+            }
+        ));
+        
         setOpenSnackbar(true);
-        setShowSummary(true);
+
+        setTimeout(() => {
+            navigate("/");
+        }, 1500);
     };
 
     const renderFormStep = () => {
