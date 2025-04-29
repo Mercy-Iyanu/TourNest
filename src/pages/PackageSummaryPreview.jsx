@@ -33,8 +33,8 @@ const TourPackageSummary = () => {
 
       <div>
         <div className="flex justify-between">
-          <h2 className="text-2xl text-green-700 font-bold mb-4">Tour Package ID:</h2>
-          <Chip label={tour.additional?.tags.join(', ')} color="danger" variant="filled" size="big" />
+          <h2 className="text-2xl font-bold mb-4">Tour Package ID:</h2>
+          {/* <Chip label={tour.additional?.tags.join(', ')} color="danger" variant="filled" size="big" /> */}
         </div>
         <div>
           <div className='flex gap-6'>
@@ -103,7 +103,7 @@ const TourPackageSummary = () => {
                         <span>{tour.itinerary?.location}</span>
                       </div>
                   </div>
-                  <p className="font-bold text-xl">{tour.itinerary?.title}</p>
+                  <p className="font-semibold text-xl">{tour.itinerary?.title}</p>
                   <p variant="body1">{tour.itinerary?.description}</p>
               </div>
             </div>
