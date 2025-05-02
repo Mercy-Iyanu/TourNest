@@ -101,10 +101,6 @@ const ParentTourPackageForm = () => {
     const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
     const goToStep = (step) => setCurrentStep(step);
 
-    /**
-     * The `handleSubmit` function processes form data, saves it to local storage, displays a success
-     * message, and navigates to a different page after a delay.
-     */
     const handleSubmit = () => {
         console.log("Final Form Data:", formData);
         const newId = Date.now().toString();
