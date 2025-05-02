@@ -5,11 +5,22 @@ import { auth } from '../../utils/firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 
+const SocialButton = ({ onClick, icon: Icon, text, color }) => (
+    <Button
+        onClick={onClick}
+        variant="contained"
+        color={color}
+        className="flex items-center gap-6 w-full py-2"
+    >
+        <Icon className="text-lg" /> {text}
+    </Button>
+);
+
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
     const googleProvider = new GoogleAuthProvider();
 
-    const GoogleLogin = async () => {
+    const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             console.log(result.user);
@@ -17,7 +28,7 @@ const Login = ({ onLogin }) => {
             onLogin(true);
             navigate('/');
         } catch (error) {
-            console.log(error);
+            console.error("Google login error:", error);
         }
     };
 
@@ -33,31 +44,30 @@ const Login = ({ onLogin }) => {
                     </Typography>
 
                     <div className="flex flex-col gap-4 mt-4 mb-4">
-                        <Button 
-                            onClick={GoogleLogin} 
-                            variant="contained" 
-                            color="error" 
-                            className="flex items-center gap-6 w-full py-2"
-                        >
-                            <FaGoogle className='text-lg' /> Sign in with Google
-                        </Button>
-                        <Button 
-                            variant="contained" 
-                            color="primary" 
-                            className="flex items-center gap-6 w-full py-2"
-                        >
-                            <FaFacebook className='text-lg' /> Sign in with Facebook
-                        </Button>
+                        <SocialButton
+                            onClick={handleGoogleLogin}
+                            icon={FaGoogle}
+                            text="Sign in with Google"
+                            color="error"
+                        />
+                        <SocialButton
+                            onClick={() => alert('Facebook login coming soon')}
+                            icon={FaFacebook}
+                            text="Sign in with Facebook"
+                            color="primary"
+                        />
                     </div>
 
                     <Typography variant="body2" className="text-center text-gray-500 mt-4">
                         Don't have an account?{' '}
-                        <Link to='/signup' className='text-blue-600 hover:underline'>Sign up</Link>
+                        <Link to="/signup" className="text-blue-600 hover:underline">
+                            Sign up
+                        </Link>
                     </Typography>
                 </CardContent>
             </Card>
         </div>
     );
-}
+};
 
 export default Login;
