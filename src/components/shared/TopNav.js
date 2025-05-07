@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../utils/firebase";
@@ -7,25 +7,34 @@ import { FiLogOut, FiMenu, FiX, FiChevronDown, FiChevronRight } from "react-icon
 function TopNav() {
   const [user] = useAuthState(auth);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [inventoryOpen, setInventoryOpen] = useState(false);
-  const [distributorsOpen, setDistributorsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [userRole, setUserRole] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const role = localStorage.getItem("userRole");
+    setUserRole(role);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("authUser");
+    localStorage.removeItem("userRole");
     navigate("/login");
-    window.location.reload();
+    // window.location.reload();
+  };
+
+  const toggleDropdown = (key) => {
+    setDropdownOpen(dropdownOpen === key ? null : key);
   };
 
   return (
     <nav className="bg-white p-4 top-0 w-full flex items-center justify-between shadow-md z-50">
-      {/* Logo */}
       <Link to="/" className="text-xl font-semibold flex items-center">
         <img src="/logo.png" alt="GetThere Logo" className="h-12 mr-2" />
       </Link>
 
-      {/* Mobile Menu Button */}
       <button
         className="md:hidden text-2xl focus:outline-none"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -33,65 +42,82 @@ function TopNav() {
         {menuOpen ? <FiX /> : <FiMenu />}
       </button>
 
-      {/* Nav Links */}
       <div
         className={`absolute md:static top-16 right-0 bg-gray-800 md:bg-transparent w-full md:w-auto flex flex-col md:flex-row md:items-center p-4 md:p-0 space-y-4 md:space-y-0 md:space-x-6 transition-all duration-300 ${
           menuOpen ? "block" : "hidden md:flex"
         }`}
       >
-        {/* Tour Inventory Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setInventoryOpen(!inventoryOpen)}
-            className="flex items-center gap-2 text-white md:text-gray-800 hover:text-gray-500 transition"
-          >
-            Tour Inventory {inventoryOpen ? <FiChevronDown /> : <FiChevronRight />}
-          </button>
-          {inventoryOpen && (
-            <div className="absolute mt-2 bg-white text-gray-800 rounded-lg shadow-lg overflow-hidden w-48">
-              <Link
-                to="/create-inventory"
-                className="block px-4 py-2 hover:bg-gray-100"
+        {userRole === "tour-owner" && (
+          <>
+            <div className="relative">
+              <button
+                onClick={() => toggleDropdown("inventory")}
+                className="flex items-center gap-2 text-white md:text-gray-800 hover:text-gray-500 transition"
               >
-                Create Inventory
-              </Link>
-              <Link
-                to="/manage-inventory"
-                className="block px-4 py-2 hover:bg-gray-100"
-              >
-                Manage Inventory
-              </Link>
+                Tour Inventory {dropdownOpen === "inventory" ? <FiChevronDown /> : <FiChevronRight />}
+              </button>
+              {dropdownOpen === "inventory" && (
+                <div className="absolute mt-2 bg-white text-gray-800 rounded-lg shadow-lg overflow-hidden w-48">
+                  <Link
+                    to="/create-inventory"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Create Inventory
+                  </Link>
+                  <Link
+                    to="/manage-inventory"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Manage Inventory
+                  </Link>
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* My Distributors Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setDistributorsOpen(!distributorsOpen)}
-            className="flex items-center gap-2 text-white md:text-gray-800 hover:text-gray-500 transition"
-          >
-            My Distributors {distributorsOpen ? <FiChevronDown /> : <FiChevronRight />}
-          </button>
-          {distributorsOpen && (
-            <div className="absolute mt-2 bg-white text-gray-800 rounded-lg shadow-lg overflow-hidden w-48">
-              <Link
-                to="/recent-distributors"
-                className="block px-4 py-2 hover:bg-gray-100"
+            <div className="relative">
+              <button
+                onClick={() => toggleDropdown("distributors")}
+                className="flex items-center gap-2 text-white md:text-gray-800 hover:text-gray-500 transition"
               >
-                Recent Distributors
-              </Link>
-              <Link
-                to="/distributors-analytics"
-                className="block px-4 py-2 hover:bg-gray-100"
-              >
-                Distributors Analytics
-              </Link>
+                My Distributors {dropdownOpen === "distributors" ? <FiChevronDown /> : <FiChevronRight />}
+              </button>
+              {dropdownOpen === "distributors" && (
+                <div className="absolute mt-2 bg-white text-gray-800 rounded-lg shadow-lg overflow-hidden w-48">
+                  <Link
+                    to="/recent-distributors"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Recent Distributors
+                  </Link>
+                  <Link
+                    to="/distributors-analytics"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Distributors Analytics
+                  </Link>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
 
-        {/* Profile & Logout */}
+        {userRole === "tour-distributor" && (
+          <>
+            <Link
+              to="/pricing-rule"
+              className="text-white md:text-gray-800 hover:text-gray-500 transition"
+            >
+              Pricing Rule
+            </Link>
+            <Link
+              to="/sales-analytics"
+              className="text-white md:text-gray-800 hover:text-gray-500 transition"
+            >
+              Sales Analytics
+            </Link>
+          </>
+        )}
+
         {user && (
           <div className="relative">
             <button

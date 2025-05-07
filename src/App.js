@@ -5,8 +5,10 @@ import Login from './components/auth/Login';
 import Layout from './components/shared/Layout';
 import SignUp from './components/auth/Signup';
 import TourOwnerDashboard from './pages/TourOwnerDashboard';
+import TourDistributorDashboard from './pages/TourDistributorDashboard';
 import ParentTourPackageForm from './components/tour-package-creation/ParentTourPackageForm';
 import TourPackageSummary from './pages/PackageSummaryPreview';
+import PricingRuleForm from './components/PricingRuleForm';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,9 +21,11 @@ function App() {
         {isAuthenticated ? (
           <Route path='/' element={<Layout />}>
             <Route index element={<TourInventoryPage />} />
-            <Route path="/" element={<TourOwnerDashboard />} />
+            <Route path="/owner-dashboard" element={<TourOwnerDashboard />} />
+            <Route path="/distributor-dashboard" element={<TourDistributorDashboard />} />
+            <Route path="/pricing-rule" element={<PricingRuleForm />} />
             <Route path="/package/:id" element={<TourPackageSummary />} />
-            <Route path="/create-package" element={<ParentTourPackageForm />} />
+            <Route path="/owner-dashboard/create-package" element={<ParentTourPackageForm />} />
           </Route>
         ):(
           <Route path='*' element={<Navigate to='/login' replace/>} />
