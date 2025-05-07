@@ -16,14 +16,7 @@ import { auth } from "../../utils/firebase";
 const SignUp = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    password: "",
-  });
-
+  
   const handleChange = ({ target: { name, value } }) =>
     setFormData((prev) => ({ ...prev, [name]: value }));
 
@@ -43,18 +36,6 @@ const SignUp = () => {
     navigate("/");
   };
 
-  const renderTextField = (label, name, type = "text") => (
-    <TextField
-      label={label}
-      name={name}
-      type={type}
-      value={formData[name]}
-      onChange={handleChange}
-      fullWidth
-      required
-    />
-  );
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <Card className="shadow-xl max-w-md w-full p-6">
@@ -63,6 +44,9 @@ const SignUp = () => {
             Get Started
           </Typography>
 
+          <Typography variant="body2" className="text-gray-600 text-center">
+            Select your role
+          </Typography>
           <ToggleButtonGroup
             value={role}
             exclusive
@@ -92,21 +76,6 @@ const SignUp = () => {
                   <FaFacebook className="text-lg" /> Sign up with Facebook
                 </Button>
               </div>
-
-              <Typography variant="body2" className="text-center text-gray-500 my-6">
-                OR
-              </Typography>
-
-              <form onSubmit={handleSubmit} className="space-y-3">
-                {renderTextField("First Name", "firstName")}
-                {renderTextField("Last Name", "lastName")}
-                {renderTextField("Phone Number", "phone", "tel")}
-                {renderTextField("Email Address", "email", "email")}
-                {renderTextField("Password", "password", "password")}
-                <Button type="submit" variant="contained" color="success" fullWidth>
-                  Sign Up
-                </Button>
-              </form>
             </>
           )}
         </CardContent>
