@@ -10,21 +10,23 @@ const TourOwnerDashboard = () => {
     navigate('create-package');
   };
 
-
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-
-      <div className="mt-6 flex justify-end">
-        <button 
-          className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
-          onClick={handleCreatePackage}
-        >
-          Create Tour Package
-        </button>
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-gray-800">Tour Package Dashboard</h1>
+          <button 
+            onClick={handleCreatePackage}
+            className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow-sm transition"
+          >
+            + Create Tour Package
+          </button>
+        </div>
+        <TourPackageTable />
       </div>
-      <TourPackageTable />
     </div>
   );
 };
+
 
 export default TourOwnerDashboard;
