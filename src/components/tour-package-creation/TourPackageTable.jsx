@@ -18,49 +18,68 @@ const TourPackageTable = () => {
   };
 
   const handleRowClick = (id) => {
-    navigate(`/package/${id}`)
+    navigate(`/package/${id}`);
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl mb-4">My Tour Packages</h2>
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100 text-blue-900">
-            <th className="p-2 text-left">Name</th>
-            <th className="p-2 text-left">Location</th>
-            <th className="p-2 text-left">Duration (days)</th>
-            <th className="p-2 text-left">Price</th>
-            <th className="p-2 text-left">Status</th>
-            <th className="p-2 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tourPackages.length === 0 ? (
-            <tr><td colSpan="6" className="p-4 text-center">No packages found.</td></tr>
-          ) : (
-            tourPackages.map(pkg => (
-              <tr 
-                key={pkg.id} 
-                className="border-t cursor-pointer hover:bg-gray-200" 
-                onClick={() => handleRowClick(pkg.id.toString())}
-              >
-                <td className="p-2">{pkg.name}</td>
-                <td className="p-2">{pkg.location}</td>
-                <td className="p-2">{pkg.duration}</td>
-                <td className="p-2">{pkg.price}</td>
-                <td className="p-2">{pkg.status}</td>
-                <td className="p-2 flex gap-2" onClick={(e) => e.stopPropagation()}>
-                  <button onClick={() => navigate(`/edit-package/${pkg.id}`)} className="text-blue-800"><FaEdit /></button>
-                  <button onClick={() => handleDelete(pkg.id)} className="text-red-400"><FaTrash /></button>
-                </td>
+    <div className="bg-white rounded-xl shadow-md p-6">
+      <h2 className="text-lg font-semibold text-gray-700 mb-4">My Tour Packages</h2>
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-sm text-left border border-gray-200">
+          <thead>
+            <tr className="bg-gray-50 text-gray-700 uppercase tracking-wider">
+              <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Location</th>
+              <th className="px-4 py-3">Duration</th>
+              <th className="px-4 py-3">Price</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tourPackages.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center py-6 text-gray-500">No packages found.</td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              tourPackages.map(pkg => (
+                <tr 
+                  key={pkg.id}
+                  className="border-t hover:bg-gray-50 transition cursor-pointer"
+                  onClick={() => handleRowClick(pkg.id.toString())}
+                >
+                  <td className="px-4 py-3">{pkg.name}</td>
+                  <td className="px-4 py-3">{pkg.location}</td>
+                  <td className="px-4 py-3">{pkg.duration} days</td>
+                  <td className="px-4 py-3">{pkg.price}</td>
+                  <td className="px-4 py-3">
+                    <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+                      pkg.status === 'active' 
+                        ? 'bg-green-100 text-green-700' 
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}>
+                      {pkg.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex space-x-4 text-lg">
+                      <button onClick={() => navigate(`/edit-package/${pkg.id}`)} className="text-blue-600 hover:text-blue-800 transition">
+                        <FaEdit />
+                      </button>
+                      <button onClick={() => handleDelete(pkg.id)} className="text-red-500 hover:text-red-700 transition">
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
+
 
 export default TourPackageTable;
