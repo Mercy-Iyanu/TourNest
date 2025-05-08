@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, TextField, MenuItem, Button, Typography } from '@mui/material';
 
-const categories = ['Adventure', 'Cultural', 'Beach'];
+const categories = ['Adventure', 'Cultural', 'Historical', 'Culinary'];
 const partnerTypes = ['Reseller', 'Affiliate', 'Corporate'];
 const adjustmentTypes = ['Markup', 'Markdown'];
 
@@ -23,7 +23,7 @@ const PricingRuleForm = ({ onAddRule }) => {
   };
 
   return (
-    <Box className="p-4 rounded-xl border shadow bg-white max-w-md mx-auto mb-6">
+    <Box className="max-w-md mx-auto mb-6 mt-16">
       <Typography variant="h6" className="mb-4 font-bold text-center">
         New Pricing Rule
       </Typography>
