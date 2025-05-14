@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import TourPackageTable from "../components/tour-package-creation/TourPackageTable";
 
@@ -7,7 +6,7 @@ const TourOwnerDashboard = () => {
   const navigate = useNavigate();
 
   const handleCreatePackage = () => {
-    navigate('create-package');
+    navigate('owner-dashboard/create-package');
   };
 
   return (

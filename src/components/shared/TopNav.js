@@ -49,6 +49,12 @@ function TopNav() {
       >
         {userRole === "tour-owner" && (
           <>
+            <Link
+              to="/pricing-rule-page"
+              className="text-white md:text-gray-800 hover:text-gray-500 transition"
+            >
+              Pricing Rule
+            </Link>
             <div className="relative">
               <button
                 onClick={() => toggleDropdown("inventory")}
@@ -104,7 +110,7 @@ function TopNav() {
         {userRole === "tour-distributor" && (
           <>
             <Link
-              to="/pricing-rule"
+              to="/pricing-rule-form"
               className="text-white md:text-gray-800 hover:text-gray-500 transition"
             >
               Pricing Rule

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Chip from '@mui/material/Chip';
-import { Accordion, AccordionSummary, AccordionDetails, Card, Box, Typography } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Card } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
