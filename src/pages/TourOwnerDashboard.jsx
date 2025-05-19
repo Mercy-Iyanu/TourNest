@@ -6,7 +6,7 @@ const TourOwnerDashboard = () => {
   const navigate = useNavigate();
 
   const handleCreatePackage = () => {
-    navigate('owner-dashboard/create-package');
+    navigate('/create-package');
   };
 
   return (

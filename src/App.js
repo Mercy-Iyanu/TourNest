@@ -27,7 +27,7 @@ function App() {
             <Route path="/pricing-rule-page" element={<PricingRulePage />} />
             <Route path="/pricing-rule-form" element={<PricingRuleForm />} />
             <Route path="/package/:id" element={<TourPackageSummary />} />
-            <Route path="/owner-dashboard/create-package" element={<ParentTourPackageForm />} />
+            <Route path="/create-package" element={<ParentTourPackageForm />} />
           </Route>
         ):(
           <Route path='*' element={<Navigate to='/login' replace/>} />
