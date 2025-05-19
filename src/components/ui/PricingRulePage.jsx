@@ -4,7 +4,7 @@ export default function PricingRuleForm() {
   const [engineActive, setEngineActive] = useState(true);
   const [ruleName, setRuleName] = useState('');
   const [markup, setMarkup] = useState('');
-  const [activeTab, setActiveTab] = useState('tour');
+  const [activeTab, setActiveTab] = useState('distributor');
 
   const [rowsByTab, setRowsByTab] = useState({
     distributor: [],
@@ -28,7 +28,6 @@ export default function PricingRuleForm() {
       [activeTab]: [...prev[activeTab], newRow],
     }));
 
-    // Clear main form fields after adding a row
     setRuleName('');
     setMarkup('');
   };
@@ -52,18 +51,15 @@ export default function PricingRuleForm() {
   };
 
   const editRow = (row, tabKey) => {
-    // Remove from read section
     setRowsByTab((prev) => ({
       ...prev,
       [tabKey]: prev[tabKey].filter((r) => r.id !== row.id),
     }));
 
-    // Restore form fields
     setRuleName(row.ruleName);
     setMarkup(row.ruleType);
     setActiveTab(tabKey);
 
-    // Add back to editable form
     setRowsByTab((prev) => ({
       ...prev,
       [tabKey]: [
@@ -110,7 +106,6 @@ export default function PricingRuleForm() {
         </div>
       </div>
 
-      {/* Form Controls */}
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
         <input
           type="text"
@@ -136,7 +131,6 @@ export default function PricingRuleForm() {
         </button>
       </div>
 
-      {/* Tabs */}
       <div className="flex space-x-2 mb-4">
         {Object.keys(tabLabelMap).map((tab) => (
           <button
@@ -153,7 +147,6 @@ export default function PricingRuleForm() {
         ))}
       </div>
 
-      {/* Editable Rows */}
       {currentRows
         .filter((row) => !row.confirmed)
         .map((row) => (
@@ -202,7 +195,6 @@ export default function PricingRuleForm() {
           </div>
         ))}
 
-      {/* Read Section */}
       <div className="mt-10">
         <h3 className="text-lg font-semibold mb-3 text-gray-800">Confirmed Pricing Rules</h3>
         <div className="overflow-x-auto">
