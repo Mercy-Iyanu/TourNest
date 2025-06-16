@@ -1,5 +1,5 @@
-import React from 'react';
-import { TextField, Box, Typography } from '@mui/material';
+import React from "react";
+import { TextField, Box, Typography } from "@mui/material";
 
 const TourDayNumber = ({ value, onChange }) => {
   const handleChange = (event) => {
@@ -10,9 +10,9 @@ const TourDayNumber = ({ value, onChange }) => {
   return (
     <Box className="mb-4 md:mb-8">
       <Typography className="text-base md:text-sm text-gray-800">
-      Day Number <span className="text-red-500">*</span>
+        Itinerary Number <span className="text-red-500">*</span>
       </Typography>
-          
+
       <TextField
         fullWidth
         required

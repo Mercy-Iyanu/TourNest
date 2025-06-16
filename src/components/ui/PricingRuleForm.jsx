@@ -1,24 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
 export default function PricingRuleForm() {
   const [engineActive, setEngineActive] = useState(true);
-  const [ruleName, setRuleName] = useState('');
-  const [markup, setMarkup] = useState('');
-  const [activeTab, setActiveTab] = useState('tour');
+  const [ruleName, setRuleName] = useState("");
+  const [markup, setMarkup] = useState("");
+  const [activeTab, setActiveTab] = useState("tour");
+  const [tours, setTours] = useState([]);
+  const [loadingTours, setLoadingTours] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
 
   const [rowsByTab, setRowsByTab] = useState({
     tour: [],
     festive: [],
   });
 
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const response = await fetch(
+          "https://sabre-tour-aggregator-backend-production.up.railway.app/api/packages"
+        );
+        const data = await response.json();
+        const formattedTours = data.map((tour) => ({
+          id: tour._id,
+          name: tour.basicInfo.tour_name,
+          price: tour.pricing.pricePerPerson || 0,
+          currency: tour.pricing.currency || "USD",
+        }));
+
+        setTours(formattedTours);
+      } catch (error) {
+        setFetchError(error.message);
+      } finally {
+        setLoadingTours(false);
+      }
+    };
+
+    fetchTours();
+  }, []);
+
+  const calculateFinalPrice = (base, type, percent, amount) => {
+    const p = parseFloat(percent || 0);
+    const a = parseFloat(amount || 0);
+    let final = base;
+
+    if (type === "Markup") {
+      final += (base * p) / 100 + a;
+    } else if (type === "Markdown") {
+      final -= (base * p) / 100 + a;
+    }
+
+    return final;
+  };
+
   const handleAddRow = () => {
     const newRow = {
       id: Date.now(),
       ruleName,
       ruleType: markup,
-      type: '',
-      markupPercent: '',
-      amount: '',
+      type: "",
+      markupPercent: "",
+      amount: "",
       confirmed: false,
     };
 
@@ -27,9 +69,8 @@ export default function PricingRuleForm() {
       [activeTab]: [...prev[activeTab], newRow],
     }));
 
-    // Clear main form fields after adding a row
-    setRuleName('');
-    setMarkup('');
+    setRuleName("");
+    setMarkup("");
   };
 
   const handleChange = (id, field, value) => {
@@ -84,15 +125,17 @@ export default function PricingRuleForm() {
 
   const currentRows = rowsByTab[activeTab];
   const tabLabelMap = {
-    tour: 'Per Tour',
-    festive: 'Per Festive Period',
+    tour: "Per Tour",
+    festive: "Per Festive Period",
   };
 
   return (
     <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded-lg shadow-md">
       {/* Header */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-        <h2 className="text-xl font-semibold text-gray-800">Pricing Rule Engine</h2>
+        <h2 className="text-xl font-semibold text-gray-800">
+          Pricing Rule Engine
+        </h2>
         <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-700">Active</span>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -142,8 +185,8 @@ export default function PricingRuleForm() {
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 rounded-md text-sm font-medium border transition ${
               activeTab === tab
-                ? 'bg-black text-white border-black'
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                ? "bg-black text-white border-black"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
             }`}
           >
             {tabLabelMap[tab]}
@@ -155,23 +198,55 @@ export default function PricingRuleForm() {
       {currentRows
         .filter((row) => !row.confirmed)
         .map((row) => (
-          <div key={row.id} className="grid grid-cols-1 sm:grid-cols-5 gap-2 items-center mb-3">
+          <div
+            key={row.id}
+            className="grid grid-cols-1 sm:grid-cols-5 gap-2 items-center mb-3"
+          >
             <select
               value={row.type}
-              onChange={(e) => handleChange(row.id, 'type', e.target.value)}
-              className="p-2 border border-gray-300 rounded-md"
+              onChange={(e) => handleChange(row.id, "type", e.target.value)}
+              className="p-2 border border-gray-300 rounded-md text-gray-800 bg-white"
             >
-              <option value="">Select {activeTab === 'festive' ? 'Festive Period' : 'Tour'}</option>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="Z">Z</option>
+              <option value="">
+                Select {activeTab === "festive" ? "Festive Period" : "Tour"}
+              </option>
+
+              {activeTab === "tour" && (
+                <>
+                  {loadingTours ? (
+                    <option disabled>Loading tours...</option>
+                  ) : fetchError ? (
+                    <option disabled>Error loading tours</option>
+                  ) : (
+                    tours.map((tour) => (
+                      <option
+                        className="text-gray-800"
+                        key={tour.id}
+                        value={tour.id}
+                      >
+                        {tour.name}
+                      </option>
+                    ))
+                  )}
+                </>
+              )}
+
+              {activeTab === "festive" && (
+                <>
+                  <option value="Christmas">Christmas</option>
+                  <option value="Eid">Eid</option>
+                  <option value="New Year">New Year</option>
+                </>
+              )}
             </select>
 
             <input
               type="number"
               placeholder="Markup %"
               value={row.markupPercent}
-              onChange={(e) => handleChange(row.id, 'markupPercent', e.target.value)}
+              onChange={(e) =>
+                handleChange(row.id, "markupPercent", e.target.value)
+              }
               className="p-2 border border-gray-300 rounded-md"
             />
 
@@ -179,7 +254,7 @@ export default function PricingRuleForm() {
               type="number"
               placeholder="Amount"
               value={row.amount}
-              onChange={(e) => handleChange(row.id, 'amount', e.target.value)}
+              onChange={(e) => handleChange(row.id, "amount", e.target.value)}
               className="p-2 border border-gray-300 rounded-md"
             />
 
@@ -197,12 +272,37 @@ export default function PricingRuleForm() {
                 Cancel
               </button>
             </div>
+            <div className="col-span-full px-2 text-gray-700 text-sm">
+              {(() => {
+                const selectedTour = tours.find((t) => t.id === row.type);
+                const base = selectedTour?.price || 0;
+                const currency = selectedTour?.currency || "USD";
+                if (!selectedTour) return null;
+
+                const final = calculateFinalPrice(
+                  base,
+                  row.ruleType,
+                  row.markupPercent,
+                  row.amount
+                );
+
+                return (
+                  <div>
+                    <strong>Current Price:</strong> {selectedTour.currency}{" "}
+                    {base.toLocaleString()} <br />
+                    <strong>New Price:</strong> {selectedTour.currency} {final}
+                  </div>
+                );
+              })()}
+            </div>
           </div>
         ))}
 
       {/* Read Section */}
       <div className="mt-10">
-        <h3 className="text-lg font-semibold mb-3 text-gray-800">Confirmed Pricing Rules</h3>
+        <h3 className="text-lg font-semibold mb-3 text-gray-800">
+          Confirmed Pricing Rules
+        </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border border-gray-200 rounded-md overflow-hidden">
             <thead className="bg-gray-100 text-gray-700 text-sm">
@@ -213,6 +313,7 @@ export default function PricingRuleForm() {
                 <th className="px-4 py-2 text-left">Markup %</th>
                 <th className="px-4 py-2 text-left">Amount</th>
                 <th className="px-4 py-2 text-left">Tab</th>
+                <th className="px-4 py-2 text-left">Prices</th>
                 <th className="px-4 py-2 text-left">Actions</th>
               </tr>
             </thead>
@@ -220,34 +321,65 @@ export default function PricingRuleForm() {
               {Object.entries(rowsByTab).flatMap(([tabKey, rows]) =>
                 rows
                   .filter((row) => row.confirmed)
-                  .map((row) => (
-                    <tr key={row.id} className="border-t border-gray-200 text-sm">
-                      <td className="px-4 py-2">{row.ruleName}</td>
-                      <td className="px-4 py-2">{row.ruleType}</td>
-                      <td className="px-4 py-2">{row.type}</td>
-                      <td className="px-4 py-2">{row.markupPercent}</td>
-                      <td className="px-4 py-2">{row.amount}</td>
-                      <td className="px-4 py-2 capitalize">{tabKey}</td>
-                      <td className="px-4 py-2 space-x-2">
-                        <button
-                          onClick={() => editRow(row, tabKey)}
-                          className="text-blue-600 hover:underline"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => cancelRow(row.id)}
-                          className="text-red-600 hover:underline"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                  .map((row) => {
+                    const selectedTour = tours.find((t) => t.id === row.type);
+                    const base = selectedTour?.price || 0;
+                    const currency = selectedTour?.currency || "USD";
+                    const final = calculateFinalPrice(
+                      base,
+                      row.ruleType,
+                      row.markupPercent,
+                      row.amount
+                    );
+
+                    return (
+                      <tr
+                        key={row.id}
+                        className="border-t border-gray-200 text-sm"
+                      >
+                        <td className="px-4 py-2">{row.ruleName}</td>
+                        <td className="px-4 py-2">{row.ruleType}</td>
+                        <td className="px-4 py-2">{row.type}</td>
+                        <td className="px-4 py-2">{row.markupPercent}</td>
+                        <td className="px-4 py-2">{row.amount}</td>
+                        <td className="px-4 py-2 capitalize">{tabKey}</td>
+                        <td className="px-4 py-2">
+                          <div className="text-xs leading-snug">
+                            <div>
+                              <strong>New:</strong> {currency} {final}
+                            </div>
+                            <div>
+                              <strong>Current:</strong> {currency}{" "}
+                              {base.toLocaleString()}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-2 space-x-2 whitespace-nowrap">
+                          <button
+                            onClick={() => editRow(row, tabKey)}
+                            className="text-blue-600 hover:underline"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => cancelRow(row.id)}
+                            className="text-red-600 hover:underline"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
               )}
-              {Object.values(rowsByTab).flat().filter((r) => r.confirmed).length === 0 && (
+              {Object.values(rowsByTab)
+                .flat()
+                .filter((r) => r.confirmed).length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-4 text-center text-gray-500">
+                  <td
+                    colSpan={7}
+                    className="px-4 py-4 text-center text-gray-500"
+                  >
                     No confirmed pricing rules yet.
                   </td>
                 </tr>

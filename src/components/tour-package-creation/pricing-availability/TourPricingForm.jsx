@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import TourCostPerPerson from './TourCostPerPerson'
+import React, { useState } from "react";
+import TourCostPerPerson from "./TourCostPerPerson";
 import TourDiscountCardList from "./TourDiscountCardList";
 import TourDateDuration from "./TourDateDuration";
 import TourCurrencyDropdown from "./TourCurrencyDropdown";
@@ -13,8 +13,7 @@ import TourCurrencyDropdown from "./TourCurrencyDropdown";
  * main component manages the form data state and passes down the necessary functions to handle updates
  * for different fields like
  */
- const TourPricingForm = ({formData, setFormData}) => {
-
+const TourPricingForm = ({ formData, setFormData }) => {
   const updateField = (field, value) => {
     setFormData({ [field]: value });
   };
@@ -38,19 +37,19 @@ import TourCurrencyDropdown from "./TourCurrencyDropdown";
 
   return (
     <div className="p-6 space-y-8 max-w-5xl mx-auto">
-      <TourCostPerPerson 
-        value={formData?.pricePerPerson || ''}
-        onChange={(val) => updateField('pricePerPerson', val)}
+      <TourCostPerPerson
+        value={formData?.pricePerPerson || ""}
+        onChange={(val) => updateField("pricePerPerson", val)}
       />
-      <TourCurrencyDropdown 
-        currency={formData?.currency || ''}
-        onChange={(val) => updateField('currency', val)}
+      <TourCurrencyDropdown
+        currency={formData?.currency || ""}
+        onChange={(val) => updateField("currency", val)}
       />
-      <TourDiscountCardList 
-        data={formData?.discount || ''}
+      <TourDiscountCardList
+        data={formData?.discount || ""}
         onChange={updateDiscount}
       />
-      <TourDateDuration 
+      <TourDateDuration
         availability={formData?.availability || []}
         onChange={updateAvailability}
       />
