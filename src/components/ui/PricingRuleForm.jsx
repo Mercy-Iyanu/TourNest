@@ -131,7 +131,6 @@ export default function PricingRuleForm() {
 
   return (
     <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded-lg shadow-md">
-      {/* Header */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
         <h2 className="text-xl font-semibold text-gray-800">
           Pricing Rule Engine
@@ -151,7 +150,6 @@ export default function PricingRuleForm() {
         </div>
       </div>
 
-      {/* Form Controls */}
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
         <input
           type="text"
@@ -177,7 +175,6 @@ export default function PricingRuleForm() {
         </button>
       </div>
 
-      {/* Tabs */}
       <div className="flex space-x-2 mb-4">
         {Object.keys(tabLabelMap).map((tab) => (
           <button
@@ -194,7 +191,6 @@ export default function PricingRuleForm() {
         ))}
       </div>
 
-      {/* Editable Rows */}
       {currentRows
         .filter((row) => !row.confirmed)
         .map((row) => (
@@ -298,7 +294,6 @@ export default function PricingRuleForm() {
           </div>
         ))}
 
-      {/* Read Section */}
       <div className="mt-10">
         <h3 className="text-lg font-semibold mb-3 text-gray-800">
           Confirmed Pricing Rules

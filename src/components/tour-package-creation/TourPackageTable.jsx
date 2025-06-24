@@ -20,7 +20,7 @@ const TourPackageTable = () => {
           name: pkg.basicInfo.tour_name,
           location: `${pkg.basicInfo.city}, ${pkg.basicInfo.state}, ${pkg.basicInfo.country}`,
           duration: pkg.basicInfo.duration || "N/A",
-          price: `$${pkg.pricing.pricePerPerson?.toLocaleString()} ${
+          price: `${pkg.pricing.pricePerPerson?.toLocaleString()} ${
             pkg.pricing.currency || ""
           }`,
           status: pkg.pricing.availability?.[0]?.is_available

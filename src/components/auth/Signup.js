@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -10,38 +8,73 @@ import {
   Typography,
   ToggleButton,
   ToggleButtonGroup,
+  Alert,
 } from "@mui/material";
-import { auth } from "../../utils/firebase";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
-  
-  const handleChange = ({ target: { name, value } }) =>
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    company: "",
+  });
 
-  const handleGoogleSignUp = async () => {
-    try {
-      const result = await signInWithPopup(auth, new GoogleAuthProvider());
-      localStorage.setItem("authUser", JSON.stringify(result.user));
-      navigate("/");
-    } catch (error) {
-      console.error("Google sign-up error:", error);
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData, "Role:", role);
-    navigate("/");
+
+    const { firstName, lastName, email, password, company } = formData;
+
+    if (!firstName || !lastName || !email || !password || !company || !role) {
+      setError("Please fill all required fields and select a role.");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          role,
+          displayName: `${firstName} ${lastName}`,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Signup failed.");
+      }
+
+      localStorage.setItem("authUser", JSON.stringify(data.user));
+      localStorage.setItem("userRole", role);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <Card className="shadow-xl max-w-md w-full p-6">
         <CardContent>
-          <Typography variant="h5" className="font-bold text-center">
+          <Typography variant="h5" className="font-bold text-center mb-2">
             Get Started
+          </Typography>
+          <Typography
+            variant="body2"
+            className="text-center text-gray-600 mb-4"
+          >
+            Fill in your details to create an account
           </Typography>
 
           <Typography variant="body2" className="text-gray-600 text-center">
@@ -51,33 +84,77 @@ const SignUp = () => {
             value={role}
             exclusive
             onChange={(e, newRole) => setRole(newRole)}
-            className="flex justify-center w-full mb-8"
+            className="flex justify-center w-full mb-4"
           >
-            <ToggleButton value="Tour Owner">Tour Owner</ToggleButton>
-            <ToggleButton value="Tour Distributor">Tour Distributor</ToggleButton>
+            <ToggleButton value="tour-owner">Tour Owner</ToggleButton>
+            <ToggleButton value="tour-distributor">
+              Tour Distributor
+            </ToggleButton>
           </ToggleButtonGroup>
 
-          {role && (
-            <>
-              <div className="space-y-4">
-                <Button
-                  onClick={handleGoogleSignUp}
-                  variant="contained"
-                  color="error"
-                  className="w-full py-2 flex items-center gap-2"
-                >
-                  <FaGoogle className="text-lg" /> Sign up with Google
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="w-full py-2 flex items-center gap-2"
-                >
-                  <FaFacebook className="text-lg" /> Sign up with Facebook
-                </Button>
-              </div>
-            </>
+          {error && (
+            <Alert severity="error" className="mb-4">
+              {error}
+            </Alert>
           )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <TextField
+              label="First Name"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Last Name"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+            <TextField
+              label="Company Name / Alias"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Create Account
+            </Button>
+          </form>
+          <Typography
+            variant="body2"
+            className="text-center text-gray-500 mt-4"
+          >
+            Already have an account{" "}
+            <Link to="/login" className="text-blue-600 hover:underline">
+              Log in
+            </Link>
+          </Typography>
         </CardContent>
       </Card>
     </div>
