@@ -120,6 +120,7 @@ const ParentTourPackageForm = () => {
     const fullPackage = {
       id: newId,
       ...formData,
+      createdBy: user._id,
     };
 
     const existingPackages =
@@ -140,16 +141,13 @@ const ParentTourPackageForm = () => {
     );
 
     try {
-      const response = await fetch(
-        "https://sabre-tour-aggregator-backend-production.up.railway.app/api/packages",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(fullPackage),
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/packages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fullPackage),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to submit package to server");
