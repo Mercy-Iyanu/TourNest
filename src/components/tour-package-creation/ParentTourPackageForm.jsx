@@ -104,6 +104,8 @@ const ParentTourPackageForm = () => {
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
   const goToStep = (step) => setCurrentStep(step);
 
+  const user = JSON.parse(localStorage.getItem("authUser"));
+
   const handleSubmit = async () => {
     console.log("Final Form Data:", formData);
     const newId = Date.now().toString();
