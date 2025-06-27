@@ -12,8 +12,7 @@ import {
   Avatar,
 } from "@mui/material";
 
-const API_URL =
-  "https://sabre-tour-aggregator-backend-production.up.railway.app/api/packages";
+const API_URL = "http://localhost:5000/api/packages";
 
 const TourDistributorDashboard = () => {
   const [tours, setTours] = useState([]);
@@ -32,7 +31,7 @@ const TourDistributorDashboard = () => {
           description: pkg.basicInfo.description,
           category: pkg.basicInfo.tour_type,
           basePrice: pkg.pricing.pricePerPerson,
-          image: pkg.media?.tourImages?.[0] || "", // Use first image or fallback
+          image: pkg.media?.tourImages?.[0] || "",
           adjustedPrice: pkg.pricing.pricePerPerson,
           adjustmentType: null,
           percentage: "0%",
@@ -47,7 +46,6 @@ const TourDistributorDashboard = () => {
     fetchPackages();
   }, []);
 
-  // Apply pricing rules if any
   useEffect(() => {
     if (tours.length === 0 || pricingRules.length === 0) return;
 

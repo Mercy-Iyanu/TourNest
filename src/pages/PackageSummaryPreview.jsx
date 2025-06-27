@@ -13,8 +13,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Skeleton from "@mui/material/Skeleton";
 
-const API_URL =
-  "https://sabre-tour-aggregator-backend-production.up.railway.app/api/packages";
+const API_URL = "http://localhost:5000/api/packages";
 
 const TourPackageSummary = () => {
   const { id } = useParams();

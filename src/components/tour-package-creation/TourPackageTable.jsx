@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const API_URL =
-  "https://sabre-tour-aggregator-backend-production.up.railway.app/api/packages";
+const API_URL = "http://localhost:5000/api/packages";
 
 const TourPackageTable = () => {
   const navigate = useNavigate();
