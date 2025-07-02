@@ -86,6 +86,9 @@ export default function PricingRuleForm() {
       markupPercent: parseFloat(markupPercent || 0),
       amount: parseFloat(amount || 0),
       isActive: engineActive,
+      basePrice: base,
+      finalPrice: final,
+      currency,
     };
 
     const url = editingRuleId
