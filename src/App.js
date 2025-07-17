@@ -6,17 +6,18 @@ import {
   Navigate,
 } from "react-router-dom";
 import TourInventoryPage from "./pages/TourInventory";
-import Login from "./components/auth/Login";
-import Layout from "./components/shared/Layout";
-import SignUp from "./components/auth/Signup";
+import Login from "../src/features/auth/Login";
+import Layout from "./components/layout/Layout";
+import SignUp from "./features/auth/Signup";
 import TourOwnerDashboard from "./pages/TourOwnerDashboard";
 import TourDistributorDashboard from "./pages/TourDistributorDashboard";
-import ParentTourPackageForm from "./components/tour-package-creation/ParentTourPackageForm";
-import TourPackageSummary from "./pages/PackageSummaryPreview";
-import PricingRuleForm from "./components/ui/PricingRuleForm";
-import PricingRulePage from "./components/ui/PricingRulePage";
-import ForgotPassword from "./components/auth/ForgotPassword";
-import ResetPassword from "./components/auth/ResetPassword";
+import ParentTourPackageForm from "./features/tourPackage/forms/ParentTourPackageForm";
+import TourPackageSummary from "./features/tourPackage/pages/PackageSummaryPreview";
+import DistributorPricingForm from "./features/pricingRules/distributor/form/DistributorPricingForm";
+import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingForm";
+import ForgotPassword from "./features/auth/pages/ForgotPassword";
+import ResetPassword from "./features/auth/pages/ResetPassword";
+import TourBookingPage from "./features/manageBooking/pages/TourBookingPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -39,8 +40,12 @@ function App() {
               path="/distributor-dashboard"
               element={<TourDistributorDashboard />}
             />
-            <Route path="/pricing-rule-page" element={<PricingRulePage />} />
-            <Route path="/pricing-rule-form" element={<PricingRuleForm />} />
+            <Route path="/pricing-rule-page" element={<OwnerPricingForm />} />
+            <Route
+              path="/pricing-rule-form"
+              element={<DistributorPricingForm />}
+            />
+            <Route path="/book/:tourId" element={<TourBookingPage />} />
             <Route path="/package/:id" element={<TourPackageSummary />} />
             <Route path="/create-package" element={<ParentTourPackageForm />} />
           </Route>

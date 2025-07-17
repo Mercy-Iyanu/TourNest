@@ -1,31 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import TourPackageTable from "../components/tour-package-creation/TourPackageTable";
+import TourPackageTable from "../components/ui/TourPackageTable";
+import {
+  Container,
+  Box,
+  Button,
+  Typography,
+  Stack,
+  Paper,
+} from "@mui/material";
 
 const TourOwnerDashboard = () => {
   const navigate = useNavigate();
 
   const handleCreatePackage = () => {
-    navigate('/create-package');
+    navigate("/create-package");
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold text-gray-800">Tour Package Dashboard</h1>
-          <button 
+    <Box sx={{ minHeight: "100vh", bgcolor: "grey.100", py: 4 }}>
+      <Container maxWidth="lg">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={3}
+        >
+          <Typography variant="h5" fontWeight="bold" color="text.primary">
+            Welcome Back, Friend!
+          </Typography>
+          <Button
+            variant="contained"
+            color="success"
             onClick={handleCreatePackage}
-            className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow-sm transition"
+            sx={{ textTransform: "none", boxShadow: 1 }}
           >
             + Create Tour Package
-          </button>
-        </div>
-        <TourPackageTable />
-      </div>
-    </div>
+          </Button>
+        </Stack>
+
+        <Paper elevation={0}>
+          <TourPackageTable />
+        </Paper>
+      </Container>
+    </Box>
   );
 };
-
 
 export default TourOwnerDashboard;

@@ -6,7 +6,6 @@ import {
   CardMedia,
   Chip,
   Stack,
-  Button,
   Typography,
 } from "@mui/material";
 
@@ -68,7 +67,7 @@ const TourDistributorDashboard = () => {
     });
 
   return (
-    <Box p={4} bgcolor="#f5f7fa" minHeight="100vh">
+    <Box sx={{ p: 4, bgcolor: "#f5f7fa", minHeight: "100vh" }}>
       <Typography variant="h5" gutterBottom fontWeight="bold">
         Available Tours
       </Typography>
@@ -80,22 +79,32 @@ const TourDistributorDashboard = () => {
 
           return (
             <Card key={tour.id} sx={{ display: "flex", boxShadow: 2 }}>
-              <CardMedia
-                component="img"
-                sx={{ width: 180 }}
-                image={tour.image}
-                alt={tour.title}
-              />
+              {tour.image && (
+                <CardMedia
+                  component="img"
+                  sx={{ width: 180, objectFit: "cover" }}
+                  image={tour.image}
+                  alt={tour.title}
+                />
+              )}
+
               <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
                 <CardContent>
                   <Typography variant="h6">{tour.title}</Typography>
-                  <Typography variant="body2" color="text.secondary">
+
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 0.5 }}
+                  >
                     {tour.description}
                   </Typography>
-                  <Typography variant="body2" mt={1}>
+
+                  <Typography variant="body2" sx={{ mt: 1 }}>
                     📁 Category: <strong>{tour.category}</strong>
                   </Typography>
-                  <Typography variant="body2">
+
+                  <Typography variant="body2" sx={{ mt: 0.5 }}>
                     💰 Base Price:{" "}
                     <strong>
                       {tour.currency}
@@ -103,7 +112,11 @@ const TourDistributorDashboard = () => {
                     </strong>
                   </Typography>
 
-                  <Stack direction="row" spacing={1} mt={2} flexWrap="wrap">
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{ mt: 2, flexWrap: "wrap" }}
+                  >
                     <Chip
                       label={`${rules.length} Total Rule${
                         rules.length !== 1 ? "s" : ""
@@ -119,7 +132,6 @@ const TourDistributorDashboard = () => {
               </Box>
             </Card>
           );
-          s;
         })}
       </Stack>
     </Box>
