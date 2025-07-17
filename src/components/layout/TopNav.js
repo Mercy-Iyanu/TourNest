@@ -63,14 +63,21 @@ function TopNav() {
   return (
     <AppBar position="static" color="default" elevation={2}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Link to="/">
+        <Link
+          to={
+            userRole === "tour-owner"
+              ? "/owner-dashboard"
+              : userRole === "tour-distributor"
+              ? "/distributor-dashboard"
+              : "/"
+          }
+        >
           <Box display="flex" alignItems="center">
             <img src="/logo.png" alt="Logo" height="50" />
           </Box>
         </Link>
 
         <Box display="flex" alignItems="center" gap={2}>
-          {/* Role-based Nav */}
           {userRole === "tour-owner" && (
             <>
               <Button component={Link} to="/pricing-rule-page" color="inherit">
