@@ -61,6 +61,8 @@ const TourDistributorDashboard = () => {
 
   const getRulesForTour = (tourId) =>
     pricingRules.filter((rule) => {
+      if (!rule?.package) return false;
+
       const packageId =
         typeof rule.package === "object" ? rule.package._id : rule.package;
       return packageId === tourId;
