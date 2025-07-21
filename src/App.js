@@ -5,6 +5,8 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import TourInventoryPage from "./pages/TourInventory";
 import Login from "../src/features/auth/Login";
 import Layout from "./components/layout/Layout";
@@ -25,6 +27,7 @@ function App() {
 
   return (
     <Router>
+      <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route
           path="/login"

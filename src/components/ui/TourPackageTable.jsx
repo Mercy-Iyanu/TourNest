@@ -13,11 +13,15 @@ import {
   Chip,
 } from "@mui/material";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import ConfirmDialog from "./ConfirmDialog";
 
 const API_URL = "http://localhost:5000/api/packages";
 
 const TourPackageTable = () => {
   const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   const [tourPackages, setTourPackages] = useState([]);
 
   useEffect(() => {
@@ -48,10 +52,32 @@ const TourPackageTable = () => {
     fetchPackages();
   }, []);
 
-  const handleDelete = (id) => {
-    const updatedPackages = tourPackages.filter((pkg) => pkg.id !== id);
-    localStorage.setItem("tourPackages", JSON.stringify(updatedPackages));
-    setTourPackages(updatedPackages);
+  const openDeleteDialog = (id) => {
+    setSelectedId(id);
+    setDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDialogOpen(false);
+    setSelectedId(null);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const response = await fetch(`${API_URL}/${selectedId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Delete failed");
+
+      setTourPackages((prev) => prev.filter((pkg) => pkg.id !== selectedId));
+      toast.success("Package deleted successfully");
+    } catch (err) {
+      toast.error("Error deleting package");
+      console.error(err);
+    } finally {
+      closeDeleteDialog();
+    }
   };
 
   const handleRowClick = (id) => {
@@ -126,7 +152,7 @@ const TourPackageTable = () => {
                     </IconButton>
                     <IconButton
                       color="error"
-                      onClick={() => handleDelete(pkg.id)}
+                      onClick={() => openDeleteDialog(pkg.id)}
                     >
                       <FaTrash />
                     </IconButton>
@@ -135,6 +161,14 @@ const TourPackageTable = () => {
               ))
             )}
           </TableBody>
+          <ConfirmDialog
+            open={dialogOpen}
+            title="Confirm Deletion"
+            description="Are you sure you want to delete this package? This action is irreversible."
+            onClose={closeDeleteDialog}
+            onConfirm={confirmDelete}
+            confirmText="Delete"
+          />
         </Table>
       </TableContainer>
     </Paper>
