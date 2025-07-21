@@ -11,6 +11,8 @@ import {
   Typography,
   IconButton,
   Chip,
+  CircularProgress,
+  Box,
 } from "@mui/material";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -23,6 +25,7 @@ const TourPackageTable = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [tourPackages, setTourPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -46,6 +49,9 @@ const TourPackageTable = () => {
         setTourPackages(formattedPackages);
       } catch (error) {
         console.error("Error fetching packages:", error);
+        toast.error("Failed to fetch packages");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -114,7 +120,15 @@ const TourPackageTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tourPackages.length === 0 ? (
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  <Box py={3}>
+                    <CircularProgress size={24} />
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ) : tourPackages.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} align="center">
                   No packages found.
