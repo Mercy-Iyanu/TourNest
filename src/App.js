@@ -18,6 +18,7 @@ import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingFor
 import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
 import TourBookingPage from "./features/manageBooking/pages/TourBookingPage";
+import TourOwnerBookingsPage from "./features/manageBooking/pages/TourOwnerBookingsPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,6 +37,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<TourInventoryPage />} />
             <Route path="/owner-dashboard" element={<TourOwnerDashboard />} />
+            <Route path="/manage-booking" element={<TourOwnerBookingsPage />} />
             <Route
               path="/distributor-dashboard"
               element={<TourDistributorDashboard />}

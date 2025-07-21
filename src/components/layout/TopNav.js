@@ -98,10 +98,10 @@ function TopNav() {
               >
                 <MenuItem
                   component={Link}
-                  to="/create-inventory"
+                  to="/manage-booking"
                   onClick={closeMenus}
                 >
-                  Create Inventory
+                  Manage Booking
                 </MenuItem>
                 <MenuItem
                   component={Link}
