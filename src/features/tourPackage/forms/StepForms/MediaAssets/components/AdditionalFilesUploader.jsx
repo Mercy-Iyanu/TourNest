@@ -9,18 +9,22 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary";
 
 const AdditionalFilesUploader = ({ files, setFiles }) => {
-  const handleFileUpload = (event) => {
-    const newFiles = Array.from(event.target.files).map((file) => ({
-      name: file.name,
-      url: URL.createObjectURL(file),
-    }));
-    setFiles((prev) => [...prev, ...newFiles]);
-  };
+  const handleFileUpload = async (event) => {
+    const files = Array.from(event.target.files);
+    const uploadedFiles = [];
 
-  const handleRemoveFile = (index) => {
-    setFiles(files.filter((_, i) => i !== index));
+    for (const file of files) {
+      const uploaded = await uploadToCloudinary(file);
+      uploadedFiles.push({
+        name: file.name,
+        url: uploaded.url,
+        public_id: uploaded.public_id,
+      });
+    }
+    setFiles((prev) => [...prev, ...uploadedFiles]);
   };
 
   return (
@@ -74,6 +78,7 @@ const AdditionalFilesUploader = ({ files, setFiles }) => {
               <Box display="flex" alignItems="center" gap={1}>
                 <InsertDriveFileIcon sx={{ color: "gray" }} />
                 <Typography variant="body2">{file.name}</Typography>
+                <Typography variant="body2">{file.url}</Typography>
               </Box>
               <IconButton
                 size="small"

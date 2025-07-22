@@ -8,14 +8,20 @@ import {
   Paper,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary";
 
 const TourImagesUploader = ({ images, setImages }) => {
-  const handleImageUpload = (event) => {
-    const files = event.target.files;
-    if (files) {
-      const newImages = [...images, ...Array.from(files)];
-      setImages(newImages);
+  const handleImageUpload = async (event) => {
+    const files = Array.from(event.target.files);
+    const uploadedImages = [];
+
+    for (const file of files) {
+      const uploaded = await uploadToCloudinary(file);
+      uploadedImages.push({ url: uploaded.url, public_id: uploaded.public_id });
     }
+
+    const newImages = [...images, ...uploadedImages];
+    setImages(newImages);
   };
 
   const handleRemoveImage = (index) => {
@@ -70,7 +76,7 @@ const TourImagesUploader = ({ images, setImages }) => {
                 }}
               >
                 <img
-                  src={URL.createObjectURL(image)}
+                  src={image.url}
                   alt={`tour-img-${index}`}
                   style={{
                     width: "100%",

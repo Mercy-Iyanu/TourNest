@@ -8,14 +8,20 @@ import {
   Paper,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary";
 
 const TourVideosUploader = ({ videos, setVideos }) => {
-  const handleVideoUpload = (event) => {
-    const files = event.target.files;
-    if (files) {
-      const newVideos = [...videos, ...Array.from(files)];
-      setVideos(newVideos);
+  const handleVideoUpload = async (event) => {
+    const files = Array.from(event.target.files);
+    const uploadedVideos = [];
+
+    for (const file of files) {
+      const uploaded = await uploadToCloudinary(file);
+      uploadedVideos.push({ url: uploaded.url, public_id: uploaded.public_id });
     }
+
+    const newVideos = [...videos, ...uploadedVideos];
+    setVideos(newVideos);
   };
 
   const handleRemoveVideo = (index) => {
@@ -70,7 +76,7 @@ const TourVideosUploader = ({ videos, setVideos }) => {
                 }}
               >
                 <video
-                  src={URL.createObjectURL(video)}
+                  src={video.url}
                   controls
                   style={{
                     width: "100%",

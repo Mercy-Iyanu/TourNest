@@ -5,10 +5,14 @@ import TourVideosUploader from "./components/TourVideosUploader";
 import AdditionalFilesUploader from "./components/AdditionalFilesUploader";
 
 const MediaAssetsForm = ({ formData, setFormData }) => {
-  const [tourImages, setTourImages] = useState(formData.tourImages || []);
-  const [tourVideos, setTourVideos] = useState(formData.tourVideos || []);
+  const [tourImages, setTourImages] = useState(
+    formData?.media?.tourImages || []
+  );
+  const [tourVideos, setTourVideos] = useState(
+    formData?.media?.tourVideos || []
+  );
   const [additionalFiles, setAdditionalFiles] = useState(
-    formData.additionalFiles || []
+    formData?.media?.additionalFiles || []
   );
 
   const updateMedia = (newImages, newVideos, newFiles) => {
