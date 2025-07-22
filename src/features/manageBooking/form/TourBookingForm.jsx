@@ -1,146 +1,286 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
-  TextField,
   Typography,
-  Alert,
   Stack,
+  TextField,
+  Alert,
+  MenuItem,
 } from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/material.css";
+import { useNavigate } from "react-router-dom";
 
-const TourBookingForm = ({ tourId, distributorId, tourTitle }) => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    date: "",
-    travelers: 1,
-  });
+const paymentOptions = ["Paystack", "Flutterwave", "Bank Transfer"];
 
-  const [status, setStatus] = useState({
+const TourBookingForm = () => {
+  const navigate = useNavigate();
+  const [status, setStatus] = React.useState({
     loading: false,
     success: "",
     error: "",
   });
+  const [loadingTour, setLoadingTour] = useState(true);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  useEffect(() => {
+    const fetchTourDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/packages/${tourId}`
+        );
+        if (!response.ok) throw new Error("Tour not found");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus({ loading: true, success: "", error: "" });
+        const data = await response.json();
+        setTour(data);
+      } catch (err) {
+        setStatus((prev) => ({
+          ...prev,
+          error: err.message || "Failed to load tour",
+        }));
+      } finally {
+        setLoadingTour(false);
+      }
+    };
 
-    try {
-      const res = await fetch("http://localhost:5000/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tourId,
-          distributorId,
-          userDetails: {
-            name: form.name,
-            email: form.email,
-          },
-          date: form.date,
-          travelers: Number(form.travelers),
-        }),
-      });
+    fetchTourDetails();
+  }, [tourId]);
 
-      if (!res.ok) throw new Error("Booking failed");
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      date: "",
+      phone: "",
+      travelers: 1,
+      paymentMethod: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Full name is required"),
+      email: Yup.string().email("Invalid email").required("Email is required"),
+      date: Yup.date().required("Date is required"),
+      phone: Yup.string().required("Phone number is required"),
+      travelers: Yup.number().min(1, "Must be at least 1").required(),
+      paymentMethod: Yup.string().required("Select a payment method"),
+    }),
+    onSubmit: async (values) => {
+      setStatus({ loading: true, success: "", error: "" });
 
-      setStatus({
-        loading: false,
-        success: "Booking submitted successfully!",
-        error: "",
-      });
-      setForm({ name: "", email: "", date: "", travelers: 1 });
-    } catch (err) {
-      setStatus({
-        loading: false,
-        success: "",
-        error: err.message || "Something went wrong",
-      });
-    }
-  };
+      if (window.dataLayer) {
+        window.dataLayer.push({
+          event: "tour_booking_attempt",
+          bookingData: { ...values, tourTitle },
+        });
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/api/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tourId,
+            distributorId,
+            userDetails: {
+              name: values.name,
+              email: values.email,
+              phone: values.phone,
+            },
+            date: values.date,
+            travelers: values.travelers,
+            paymentMethod: values.paymentMethod,
+          }),
+        });
+
+        if (!res.ok) throw new Error("Booking failed");
+
+        setStatus({
+          loading: false,
+          success: "Booking submitted successfully!",
+          error: "",
+        });
+
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: "tour_booking_success",
+            bookingData: { ...values, tourTitle },
+          });
+        }
+
+        formik.resetForm();
+      } catch (err) {
+        setStatus({
+          loading: false,
+          success: "",
+          error: err.message || "Something went wrong",
+        });
+      }
+    },
+  });
+
+  if (loadingTour) {
+    return (
+      <Box textAlign="center" mt={5}>
+        <Typography variant="body1">Loading tour details...</Typography>
+      </Box>
+    );
+  }
+
+  if (!tour) {
+    return (
+      <Box textAlign="center" mt={5}>
+        <Alert severity="error">{status.error || "Failed to load tour."}</Alert>
+        <Button onClick={() => navigate(-1)} sx={{ mt: 2 }}>
+          ← Back
+        </Button>
+      </Box>
+    );
+  }
 
   return (
     <Box
       component="section"
       sx={{
-        p: 4,
+        p: { xs: 3, sm: 4 },
         bgcolor: "background.paper",
-        borderRadius: 2,
-        boxShadow: 3,
-        maxWidth: 500,
+        borderRadius: 3,
+        boxShadow: 4,
+        maxWidth: 600,
         mx: "auto",
-        mt: 4,
+        mt: 5,
       }}
     >
-      <Typography variant="h6" fontWeight={600} gutterBottom>
-        Book: {tourTitle}
+      <Button onClick={() => navigate(-1)} sx={{ mb: 2 }}>
+        ← Back
+      </Button>
+
+      <Typography variant="h5" fontWeight="bold" gutterBottom>
+        Book Tour: {tour?.basicInfo?.tour_name}
       </Typography>
 
-      <form onSubmit={handleSubmit}>
+      <Typography variant="subtitle1" fontWeight="medium" mb={3}>
+        Price: {tour?.pricing?.currency}{" "}
+        {tour?.pricing?.pricePerPerson?.toLocaleString()}
+      </Typography>
+
+      <form onSubmit={formik.handleSubmit} noValidate>
         <Stack spacing={2}>
           <TextField
-            name="name"
             label="Full Name"
-            value={form.name}
-            onChange={handleChange}
-            required
+            name="name"
             fullWidth
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.name && !!formik.errors.name}
+            helperText={formik.touched.name && formik.errors.name}
           />
           <TextField
-            name="email"
             label="Email Address"
-            value={form.email}
-            onChange={handleChange}
+            name="email"
+            fullWidth
             type="email"
-            required
-            fullWidth
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.email && !!formik.errors.email}
+            helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
-            name="date"
             label="Travel Date"
+            name="date"
             type="date"
-            value={form.date}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            required
             fullWidth
+            InputLabelProps={{ shrink: true }}
+            inputProps={{ min: new Date().toISOString().split("T")[0] }}
+            value={formik.values.date}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.date && !!formik.errors.date}
+            helperText={formik.touched.date && formik.errors.date}
           />
+          <PhoneInput
+            country="ng"
+            value={formik.values.phone}
+            onChange={(phone) => formik.setFieldValue("phone", phone)}
+            inputStyle={{ width: "100%" }}
+          />
+          {formik.touched.phone && formik.errors.phone && (
+            <Typography color="error" fontSize={12}>
+              {formik.errors.phone}
+            </Typography>
+          )}
           <TextField
-            name="travelers"
             label="Number of Travelers"
+            name="travelers"
             type="number"
             inputProps={{ min: 1 }}
-            value={form.travelers}
-            onChange={handleChange}
-            required
             fullWidth
+            value={formik.values.travelers}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.travelers && !!formik.errors.travelers}
+            helperText={formik.touched.travelers && formik.errors.travelers}
           />
+          <Typography variant="subtitle1" fontWeight="500">
+            Select Payment Method
+          </Typography>
+          <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap" }}>
+            {(tour?.booking?.paymentMethods || []).map((option) => {
+              const isSelected = formik.values.paymentMethod === option;
+              const icon = {
+                Paystack: "💳",
+                Flutterwave: "🌊",
+                "Bank Transfer": "🏦",
+              }[option];
+
+              return (
+                <Box
+                  key={option}
+                  onClick={() => formik.setFieldValue("paymentMethod", option)}
+                  sx={{
+                    p: 2,
+                    borderRadius: 2,
+                    border: "2px solid",
+                    borderColor: isSelected ? "primary.main" : "grey.300",
+                    cursor: "pointer",
+                    width: 160,
+                    textAlign: "center",
+                    backgroundColor: isSelected
+                      ? "primary.light"
+                      : "transparent",
+                  }}
+                >
+                  <Typography variant="h3">{icon}</Typography>
+                  <Typography
+                    variant="body1"
+                    fontWeight={isSelected ? 600 : 400}
+                  >
+                    {option.name}
+                  </Typography>
+                </Box>
+              );
+            })}
+          </Stack>
+          {formik.touched.paymentMethod && formik.errors.paymentMethod && (
+            <Typography color="error" fontSize={12}>
+              {formik.errors.paymentMethod}
+            </Typography>
+          )}
 
           <Button
             type="submit"
             variant="contained"
             color="primary"
+            size="large"
             disabled={status.loading}
-            fullWidth
           >
-            {status.loading ? "Submitting..." : "Confirm Booking"}
+            {status.loading ? "Submitting..." : "Proceed to Payment"}
           </Button>
 
-          {status.success && (
-            <Alert severity="success" sx={{ mt: 2 }}>
-              {status.success}
-            </Alert>
-          )}
-          {status.error && (
-            <Alert severity="error" sx={{ mt: 2 }}>
-              {status.error}
-            </Alert>
-          )}
+          {status.success && <Alert severity="success">{status.success}</Alert>}
+          {status.error && <Alert severity="error">{status.error}</Alert>}
         </Stack>
       </form>
     </Box>

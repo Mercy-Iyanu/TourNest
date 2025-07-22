@@ -18,6 +18,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import DistributorBookingWidget from "../../../widget/DistributorBookingWidget";
 
 export default function DistributorPricingForm() {
@@ -32,6 +33,7 @@ export default function DistributorPricingForm() {
   const [loadingTours, setLoadingTours] = useState(true);
   const [fetchError, setFetchError] = useState(null);
   const [editingRuleId, setEditingRuleId] = useState(null);
+  const navigate = useNavigate();
 
   const distributorId = "68594092aa4431e16f6248db";
 
@@ -172,6 +174,9 @@ export default function DistributorPricingForm() {
 
   return (
     <Paper sx={{ p: 4, my: 4 }}>
+      <Button onClick={() => navigate(-1)} sx={{ mb: 2 }}>
+        ← Back
+      </Button>
       <Typography variant="h5" gutterBottom>
         Pricing Rule Engine
       </Typography>

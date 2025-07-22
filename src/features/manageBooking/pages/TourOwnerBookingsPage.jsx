@@ -12,10 +12,12 @@ import {
   MenuItem,
   CircularProgress,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const TourOwnerBookingsPage = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("authUser"));
   const ownerId = user?._id;
@@ -41,7 +43,7 @@ const TourOwnerBookingsPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
-      fetchBookings(); // refresh list
+      fetchBookings();
     } catch (err) {
       console.error("Status update failed:", err);
     }
@@ -55,6 +57,9 @@ const TourOwnerBookingsPage = () => {
 
   return (
     <Box p={4}>
+      <Button onClick={() => navigate(-1)} sx={{ mb: 2 }}>
+        ← Back
+      </Button>
       <Typography variant="h5" mb={2}>
         All Tour Bookings
       </Typography>

@@ -18,12 +18,14 @@ import {
   FormControlLabel,
   Switch,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function OwnerPricingForm() {
   const [engineActive, setEngineActive] = useState(true);
   const [ruleName, setRuleName] = useState("");
   const [markup, setMarkup] = useState("");
   const [activeTab, setActiveTab] = useState("distributor");
+  const navigate = useNavigate();
 
   const [rowsByTab, setRowsByTab] = useState({
     distributor: [],
@@ -97,6 +99,9 @@ export default function OwnerPricingForm() {
 
   return (
     <Paper sx={{ p: 4, my: 4 }}>
+      <Button onClick={() => navigate(-1)} sx={{ mb: 2 }}>
+        ← Back
+      </Button>
       <Grid
         container
         justifyContent="space-between"
