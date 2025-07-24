@@ -44,6 +44,7 @@ const Login = ({ onLogin }) => {
         throw new Error(data.error || "Login failed.");
       }
 
+      localStorage.setItem("token", data.token);
       localStorage.setItem("authUser", JSON.stringify(data.user));
       localStorage.setItem("userRole", userRole);
       onLogin(true);

@@ -13,7 +13,7 @@ import Layout from "./components/layout/Layout";
 import SignUp from "./features/auth/Signup";
 import TourOwnerDashboard from "./pages/TourOwnerDashboard";
 import TourDistributorDashboard from "./pages/TourDistributorDashboard";
-import ParentTourPackageForm from "./features/tourPackage/forms/ParentTourPackageForm";
+import TourPackageForm from "./features/tourPackage/forms/TourPackageForm";
 import TourPackageSummary from "./features/tourPackage/pages/PackageSummaryPreview";
 import DistributorPricingForm from "./features/pricingRules/distributor/form/DistributorPricingForm";
 import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingForm";
@@ -52,7 +52,7 @@ function App() {
             />
             <Route path="/book/:tourId" element={<TourBookingPage />} />
             <Route path="/package/:id" element={<TourPackageSummary />} />
-            <Route path="/create-package" element={<ParentTourPackageForm />} />
+            <Route path="/create-package" element={<TourPackageForm />} />
           </Route>
         ) : (
           <Route path="*" element={<Navigate to="/login" replace />} />
