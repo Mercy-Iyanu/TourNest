@@ -49,6 +49,7 @@ const ItinerarySection = () => {
                     variant="outlined"
                     color="error"
                     onClick={() => remove(index)}
+                    aria-label={`Remove itinerary day ${index + 1}`}
                   >
                     Remove Day
                   </Button>

@@ -40,7 +40,7 @@ const TourPackageForm = () => {
     return await uploadMedia(files, setProgress);
   };
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmit = async (values) => {
     console.log("Submitting form...", values);
     setFormValues(values);
     setConfirmOpen(true);
@@ -126,7 +126,7 @@ const TourPackageForm = () => {
                   variant="contained"
                   onClick={() => {
                     if (activeStep === steps.length - 1) {
-                      handleSubmit(values, { resetForm });
+                      handleSubmit(values);
                     } else {
                       setActiveStep((prev) => prev + 1);
                     }

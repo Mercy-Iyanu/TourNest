@@ -96,7 +96,11 @@ const BookingSection = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={1}>
-                  <Button color="error" onClick={() => remove(index)}>
+                  <Button
+                    color="error"
+                    onClick={() => remove(index)}
+                    aria-label={`Remove payment method ${index + 1}`}
+                  >
                     Remove
                   </Button>
                 </Grid>
