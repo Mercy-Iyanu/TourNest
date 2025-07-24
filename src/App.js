@@ -13,7 +13,7 @@ import Layout from "./components/layout/Layout";
 import SignUp from "./features/auth/Signup";
 import TourOwnerDashboard from "./pages/TourOwnerDashboard";
 import TourDistributorDashboard from "./pages/TourDistributorDashboard";
-import TourPackageForm from "./features/tourPackage/forms/TourPackageForm";
+import TourPackageForm from "./components/tourForm/TourPackageForm";
 import TourPackageSummary from "./features/tourPackage/pages/PackageSummaryPreview";
 import DistributorPricingForm from "./features/pricingRules/distributor/form/DistributorPricingForm";
 import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingForm";
