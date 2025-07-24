@@ -11,37 +11,49 @@ export const tourValidationSchema = Yup.object().shape({
     tour_type: Yup.string(),
   }),
 
-  itinerary: Yup.array().of(
-    Yup.object().shape({
-      day: Yup.string(),
-      title: Yup.string(),
-      description: Yup.string(),
-      location: Yup.string(),
-      startTime: Yup.string(),
-      endTime: Yup.string(),
-    })
-  ),
+  itinerary: Yup.array()
+    .of(
+      Yup.object().shape({
+        day: Yup.string(),
+        title: Yup.string(),
+        description: Yup.string(),
+        location: Yup.string(),
+        startTime: Yup.string(),
+        endTime: Yup.string(),
+      })
+    )
+    .min(1, "At least one day is required")
+    .required("Itinerary is required"),
 
   pricing: Yup.object().shape({
     pricePerPerson: Yup.number().typeError("Price must be a number"),
     currency: Yup.string(),
     discount: Yup.object().shape({
       discountType: Yup.string().oneOf(["percentage", "fixed"]).nullable(),
-      discountValue: Yup.number().nullable(),
+      iscountValue: Yup.number()
+        .nullable()
+        .when("discountType", {
+          is: "percentage",
+          then: (schema) =>
+            schema.max(100, "Percentage discount cannot exceed 100%"),
+        }),
       minGroupSize: Yup.number().nullable(),
       startDate: Yup.date().nullable(),
       endDate: Yup.date()
         .nullable()
         .min(Yup.ref("startDate"), "End date must be after start date"),
     }),
-    availability: Yup.array().of(
-      Yup.object().shape({
-        start_date: Yup.string(),
-        end_date: Yup.string(),
-        max_guests: Yup.number().typeError("Max guests must be a number"),
-        is_available: Yup.boolean(),
-      })
-    ),
+    availability: Yup.array()
+      .of(
+        Yup.object().shape({
+          start_date: Yup.string(),
+          end_date: Yup.string(),
+          max_guests: Yup.number().typeError("Max guests must be a number"),
+          is_available: Yup.boolean(),
+        })
+      )
+      .min(1, "At least one availability period is required")
+      .required("Availability is required"),
   }),
 
   booking: Yup.object().shape({

@@ -27,7 +27,13 @@ function App() {
 
   return (
     <Router>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        pauseOnHover
+        draggable
+      />
       <Routes>
         <Route
           path="/login"

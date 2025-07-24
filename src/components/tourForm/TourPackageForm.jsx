@@ -10,7 +10,7 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { Formik, Form } from "formik";
-import { uploadMedia } from "../../features/tourPackage/services/uploadService";
+import { uploadMedia } from "../services/common/uploadService";
 import axios from "../../features/tourPackage/services/api";
 import { toast } from "react-toastify";
 import { tourFormConfig } from "../../config/formConfig";
@@ -36,17 +36,8 @@ const TourPackageForm = () => {
   ];
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleMediaUpload = async (event, field, setFieldValue) => {
-    const files = event.currentTarget.files;
-    setUploading(true);
-    try {
-      const urls = await uploadMedia(files);
-      setFieldValue(field, urls);
-    } catch (err) {
-      console.error("Upload failed:", err);
-    } finally {
-      setUploading(false);
-    }
+  const handleMediaUpload = async (files, setProgress) => {
+    return await uploadMedia(files, setProgress);
   };
 
   const handleSubmit = async (values, { resetForm }) => {
@@ -56,15 +47,15 @@ const TourPackageForm = () => {
   };
 
   const handleConfirmSubmit = async () => {
-    console.log("Confirmed!");
     setConfirmOpen(false);
     try {
       toast.info("Submitting package...");
-
       const res = await axios.post("/api/packages", formValues);
       toast.success("Tour package created successfully!");
     } catch (err) {
-      toast.error("Submission failed. Please try again.");
+      const message =
+        err?.response?.data?.message || "Submission failed. Please try again.";
+      toast.error(message);
       console.error(err);
     }
   };
@@ -105,6 +96,14 @@ const TourPackageForm = () => {
               </Step>
             ))}
           </Stepper>
+
+          <Box mt={2}>
+            {Object.keys(errors).length > 0 && (
+              <Typography color="error" variant="body2">
+                Please correct the errors highlighted in the form.
+              </Typography>
+            )}
+          </Box>
           <Form>
             <Box sx={{ p: 3 }}>
               {activeStep === 0 && <BasicInfoSection />}

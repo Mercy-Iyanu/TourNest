@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, Typography, Stack } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 import { useFormikContext } from "formik";
+import DropzoneField from "../services/common/DropzoneField";
 
 const MediaUploadSection = ({ handleMediaUpload }) => {
   const { setFieldValue } = useFormikContext();
@@ -10,43 +11,35 @@ const MediaUploadSection = ({ handleMediaUpload }) => {
       <Typography variant="h6" mt={4}>
         Media Uploads
       </Typography>
+      <Typography variant="body2" color="textSecondary">
+        • Max file size: 5MB &nbsp;• Allowed types: JPG, MP4, PDF, DOCX &nbsp;•
+        Max 10 files
+      </Typography>
       <Stack spacing={2}>
-        <Button variant="outlined" component="label">
-          Upload Tour Images
-          <input
-            hidden
-            multiple
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              handleMediaUpload(e, "media.tourImages", setFieldValue)
-            }
-          />
-        </Button>
-        <Button variant="outlined" component="label">
-          Upload Tour Videos
-          <input
-            hidden
-            multiple
-            type="file"
-            accept="video/*"
-            onChange={(e) =>
-              handleMediaUpload(e, "media.tourVideos", setFieldValue)
-            }
-          />
-        </Button>
-        <Button variant="outlined" component="label">
-          Upload Additional Files
-          <input
-            hidden
-            multiple
-            type="file"
-            accept=".pdf,.docx"
-            onChange={(e) =>
-              handleMediaUpload(e, "media.additionalFiles", setFieldValue)
-            }
-          />
-        </Button>
+        <DropzoneField
+          label="Tour Images"
+          fieldName="media.tourImages"
+          acceptedTypes={["image/jpeg", "image/png", "image/webp"]}
+          setFieldValue={setFieldValue}
+          uploadHandler={handleMediaUpload}
+        />
+        <DropzoneField
+          label="Tour Videos"
+          fieldName="media.tourVideos"
+          acceptedTypes={["video/mp4", "video/webm"]}
+          setFieldValue={setFieldValue}
+          uploadHandler={handleMediaUpload}
+        />
+        <DropzoneField
+          label="Additional Files"
+          fieldName="media.additionalFiles"
+          acceptedTypes={[
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          ]}
+          setFieldValue={setFieldValue}
+          uploadHandler={handleMediaUpload}
+        />
       </Stack>
     </>
   );

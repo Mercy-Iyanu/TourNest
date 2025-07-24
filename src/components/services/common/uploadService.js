@@ -1,14 +1,23 @@
-import axios from "./api";
+import axios from "../../../features/tourPackage/services/api";
 import { toast } from "react-toastify";
 
-export const uploadMedia = async (files) => {
+export const uploadMedia = async (files, setProgress = () => {}) => {
   const urls = [];
+
   for (let file of files) {
+    const formData = new FormData();
+    formData.append("file", file);
+
     const toastId = toast.loading(`Uploading ${file.name}...`);
+
     try {
-      const formData = new FormData();
-      formData.append("file", file);
       const res = await axios.post("/api/upload", formData, {
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setProgress((prev) => ({ ...prev, [file.name]: percent }));
+        },
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -20,16 +29,18 @@ export const uploadMedia = async (files) => {
         isLoading: false,
         autoClose: 3000,
       });
-      urls.push(res.data.url);
+
+      urls.push(res.data.secure_url);
     } catch (err) {
       toast.update(toastId, {
-        render: `Upload failed: ${file.name}`,
+        render: `Failed to upload ${file.name}`,
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 5000,
       });
-      throw err;
+      console.error(err);
     }
   }
+
   return urls;
 };
