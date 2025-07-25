@@ -1,99 +1,116 @@
 import React from "react";
 import {
-  TextField,
-  Button,
   Grid,
+  TextField,
+  IconButton,
   Typography,
-  Stack,
-  MenuItem,
-  InputLabel,
-  Select,
-  FormControl,
+  Switch,
+  FormControlLabel,
+  Button,
 } from "@mui/material";
-import { useFormikContext, FieldArray } from "formik";
+import { FieldArray, useFormikContext } from "formik";
+import { AddCircleOutline, Delete } from "@mui/icons-material";
 
 const AvailabilitySection = () => {
   const { values, handleChange } = useFormikContext();
 
   return (
-    <>
-      <Typography variant="h6" mt={4}>
-        Availability
-      </Typography>
-      <FieldArray name="pricing.availability">
-        {({ push, remove }) => (
-          <Stack spacing={2}>
-            {values.pricing.availability.map((avail, index) => (
-              <Grid container spacing={2} key={index}>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="Start Date"
-                    InputLabelProps={{ shrink: true }}
-                    name={`pricing.availability[${index}].start_date`}
-                    value={avail.start_date}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="End Date"
-                    InputLabelProps={{ shrink: true }}
-                    name={`pricing.availability[${index}].end_date`}
-                    value={avail.end_date}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    label="Max Guests"
-                    name={`pricing.availability[${index}].max_guests`}
-                    value={avail.max_guests}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={2}>
-                  <FormControl fullWidth>
-                    <InputLabel shrink>Available</InputLabel>
-                    <Select
-                      displayEmpty
-                      name={`pricing.availability[${index}].is_available`}
-                      value={avail.is_available}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={true}>Yes</MenuItem>
-                      <MenuItem value={false}>No</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={1}>
-                  <Button color="error" onClick={() => remove(index)}>
-                    Remove
-                  </Button>
-                </Grid>
-              </Grid>
-            ))}
-            <Button
-              onClick={() =>
-                push({
-                  start_date: "",
-                  end_date: "",
-                  max_guests: "",
-                  is_available: true,
-                })
-              }
+    <FieldArray name="availability">
+      {({ push, remove }) => (
+        <>
+          <Typography variant="h6" gutterBottom>
+            Availability
+          </Typography>
+
+          {values.availability.map((item, index) => (
+            <Grid
+              container
+              spacing={2}
+              key={index}
+              sx={{ borderBottom: "1px solid #ddd", mb: 2, pb: 2 }}
             >
-              Add Availability
-            </Button>
-          </Stack>
-        )}
-      </FieldArray>
-    </>
+              <Grid item xs={5}>
+                <TextField
+                  fullWidth
+                  label="Start Date"
+                  type="date"
+                  name={`availability[${index}].startDate`}
+                  value={item.startDate}
+                  onChange={handleChange}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item xs={5}>
+                <TextField
+                  fullWidth
+                  label="End Date"
+                  type="date"
+                  name={`availability[${index}].endDate`}
+                  value={item.endDate}
+                  onChange={handleChange}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <TextField
+                  fullWidth
+                  label="Min Guests"
+                  type="number"
+                  name={`availability[${index}].minGuests`}
+                  value={item.minGuests}
+                  onChange={handleChange}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <TextField
+                  fullWidth
+                  label="Max Guests"
+                  type="number"
+                  name={`availability[${index}].maxGuests`}
+                  value={item.maxGuests}
+                  onChange={handleChange}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name={`availability[${index}].isAvailable`}
+                      checked={item.isAvailable}
+                      onChange={handleChange}
+                    />
+                  }
+                  label="Is Available"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={1}>
+                <Button color="error" onClick={() => remove(index)}>
+                  Remove
+                </Button>
+              </Grid>
+            </Grid>
+          ))}
+
+          <Button
+            onClick={() =>
+              push({
+                start_date: "",
+                end_date: "",
+                max_guests: "",
+                is_available: true,
+              })
+            }
+          >
+            Add Availability
+          </Button>
+        </>
+      )}
+    </FieldArray>
   );
 };
 

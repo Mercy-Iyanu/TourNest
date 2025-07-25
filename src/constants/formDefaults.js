@@ -22,19 +22,22 @@ export const tourInitialValues = {
     pricePerPerson: "",
     currency: "",
     discount: {
-      discountType: "",
       discountValue: "",
       minGroupSize: "",
+    },
+  },
+  availability: [
+    {
       startDate: "",
       endDate: "",
+      minGuests: "",
+      maxGuests: "",
+      isAvailable: true,
     },
-    availability: [],
-  },
+  ],
   booking: {
     cancellationPolicy: "",
-    paymentMethods: [{ id: "", name: "", type: "local" }],
-    minGroupSize: "",
-    maxGroupSize: "",
+    paymentMethods: [{ name: "", type: "local" }],
   },
   media: {
     tourImages: [],

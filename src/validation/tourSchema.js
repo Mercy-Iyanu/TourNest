@@ -28,49 +28,45 @@ export const tourValidationSchema = Yup.object().shape({
   pricing: Yup.object().shape({
     pricePerPerson: Yup.number().typeError("Price must be a number"),
     currency: Yup.string(),
-    discount: Yup.object().shape({
-      discountType: Yup.string().oneOf(["percentage", "fixed"]).nullable(),
-      iscountValue: Yup.number()
-        .nullable()
-        .when("discountType", {
-          is: "percentage",
-          then: (schema) =>
-            schema.max(100, "Percentage discount cannot exceed 100%"),
-        }),
-      minGroupSize: Yup.number().nullable(),
-      startDate: Yup.date().nullable(),
-      endDate: Yup.date()
-        .nullable()
-        .min(Yup.ref("startDate"), "End date must be after start date"),
-    }),
-    availability: Yup.array()
-      .of(
-        Yup.object().shape({
-          start_date: Yup.string(),
-          end_date: Yup.string(),
-          max_guests: Yup.number().typeError("Max guests must be a number"),
-          is_available: Yup.boolean(),
-        })
-      )
-      .min(1, "At least one availability period is required")
-      .required("Availability is required"),
+    discount: Yup.object()
+      .nullable()
+      .shape({
+        discountValue: Yup.number()
+          .typeError("Discount must be a number")
+          .positive("Discount must be greater than zero")
+          .required("Discount value is required"),
+        minGroupSize: Yup.number()
+          .typeError("Minimum group size must be a number")
+          .integer("Group size must be a whole number")
+          .min(1, "Minimum group size must be at least 1")
+          .required("Minimum group size is required"),
+      }),
   }),
+
+  availability: Yup.array()
+    .of(
+      Yup.object().shape({
+        startDate: Yup.string(),
+        endDate: Yup.string(),
+        minGuests: Yup.number().typeError("Min guests must be a number"),
+        maxGuests: Yup.number().typeError("Max guests must be a number"),
+        isAvailable: Yup.boolean(),
+      })
+    )
+    .min(1, "At least one availability period is required")
+    .required("Availability is required"),
 
   booking: Yup.object().shape({
     cancellationPolicy: Yup.string(),
     paymentMethods: Yup.array().of(
       Yup.object().shape({
-        id: Yup.number()
-          .typeError("ID must be a number")
-          .required("ID is required"),
+        id: Yup.number().required("ID is required"),
         name: Yup.string().required("Name is required"),
         type: Yup.string()
           .oneOf(["local", "international"])
           .required("Payment type is required"),
       })
     ),
-    minGroupSize: Yup.number().typeError("Min group size must be a number"),
-    maxGroupSize: Yup.number().typeError("Max group size must be a number"),
   }),
 
   additional: Yup.object().shape({

@@ -14,7 +14,7 @@ import {
 import { FieldArray, useFormikContext } from "formik";
 
 const BookingSection = () => {
-  const { values, handleChange } = useFormikContext();
+  const { values, handleChange, touched, errors } = useFormikContext();
 
   return (
     <Box mt={4}>
@@ -30,21 +30,18 @@ const BookingSection = () => {
                 <Grid item xs={12} sm={4}>
                   <TextField
                     fullWidth
-                    label="ID"
-                    name={`booking.paymentMethods[${index}].id`}
-                    value={pm.id}
-                    onChange={handleChange}
-                    type="number"
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    fullWidth
                     label="Name"
                     name={`booking.paymentMethods[${index}].name`}
                     value={pm.name}
                     onChange={handleChange}
+                    error={
+                      touched.booking?.paymentMethods?.[index]?.name &&
+                      Boolean(errors.booking?.paymentMethods?.[index]?.name)
+                    }
+                    helperText={
+                      touched.booking?.paymentMethods?.[index]?.name &&
+                      errors.booking?.paymentMethods?.[index]?.name
+                    }
                   />
                 </Grid>
 
@@ -56,33 +53,15 @@ const BookingSection = () => {
                       name={`booking.paymentMethods[${index}].type`}
                       value={pm.type}
                       onChange={handleChange}
+                      error={
+                        touched.booking?.paymentMethods?.[index]?.type &&
+                        Boolean(errors.booking?.paymentMethods?.[index]?.type)
+                      }
                     >
                       <MenuItem value="local">Local</MenuItem>
                       <MenuItem value="international">International</MenuItem>
                     </Select>
                   </FormControl>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Min Group Size"
-                    name="booking.minGroupSize"
-                    type="number"
-                    value={values.booking.minGroupSize}
-                    onChange={handleChange}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Max Group Size"
-                    name="booking.maxGroupSize"
-                    type="number"
-                    value={values.booking.maxGroupSize}
-                    onChange={handleChange}
-                  />
                 </Grid>
 
                 <Grid item xs={12}>
@@ -92,6 +71,14 @@ const BookingSection = () => {
                     name="booking.cancellationPolicy"
                     value={values.booking.cancellationPolicy}
                     onChange={handleChange}
+                    error={
+                      touched.booking?.cancellationPolicy &&
+                      Boolean(errors.booking?.cancellationPolicy)
+                    }
+                    helperText={
+                      touched.booking?.cancellationPolicy &&
+                      errors.booking?.cancellationPolicy
+                    }
                   />
                 </Grid>
 

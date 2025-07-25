@@ -82,6 +82,10 @@ const TourDistributorDashboard = () => {
       <Typography variant="h5" gutterBottom fontWeight="bold">
         Available Tours
       </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        Showing {tours.length} tour{tours.length !== 1 && "s"} with{" "}
+        {pricingRules.length} pricing rule{pricingRules.length !== 1 && "s"}.
+      </Typography>
 
       {loading ? (
         <Box

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Button,
   Typography,
@@ -11,9 +11,10 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { Formik, Form } from "formik";
+import { toast } from "react-toastify";
+
 import { uploadMedia } from "../services/common/uploadService";
 import axios from "../../api/api";
-import { toast } from "react-toastify";
 import { tourFormConfig } from "../../config/formConfig";
 import { mapApiToFormik } from "../../utils/mapApiToFormik";
 import { getPackageById, updatePackage } from "../../api/packageApi";
@@ -25,8 +26,10 @@ import AvailabilitySection from "./AvailabilitySection";
 import BookingSection from "./BookingSection";
 import AdditionalInfoSection from "./AdditionalInfoSection";
 import ConfirmationDialog from "./ConfirmationDialog";
+import PricingSection from "./PricingSection";
 
 const TourPackageForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = Boolean(id);
 
@@ -41,8 +44,9 @@ const TourPackageForm = () => {
   const steps = [
     "Basic Info",
     "Itinerary",
-    "Media",
+    "Pricing",
     "Availability",
+    "Media",
     "Booking",
     "Additional Info",
   ];
@@ -72,6 +76,8 @@ const TourPackageForm = () => {
           ? "Tour package updated successfully!"
           : "Tour package created successfully!"
       );
+
+      navigate("/owner-dashboard");
     } catch (err) {
       const message =
         err?.response?.data?.message || "Submission failed. Please try again.";
@@ -106,14 +112,7 @@ const TourPackageForm = () => {
       onSubmit={handleSubmit}
       enableReinitialize
     >
-      {({
-        values,
-        handleChange,
-        setFieldValue,
-        errors,
-        touched,
-        resetForm,
-      }) => (
+      {({ values, errors, touched }) => (
         <>
           {uploading && (
             <LinearProgress
@@ -148,12 +147,14 @@ const TourPackageForm = () => {
             <Box sx={{ p: 3 }}>
               {activeStep === 0 && <BasicInfoSection />}
               {activeStep === 1 && <ItinerarySection />}
-              {activeStep === 2 && (
+              {activeStep === 2 && <PricingSection />}
+              {activeStep === 3 && <AvailabilitySection />}
+              {activeStep === 4 && (
                 <MediaUploadSection handleMediaUpload={handleMediaUpload} />
               )}
-              {activeStep === 3 && <AvailabilitySection />}
-              {activeStep === 4 && <BookingSection />}
-              {activeStep === 5 && <AdditionalInfoSection />}
+
+              {activeStep === 5 && <BookingSection />}
+              {activeStep === 6 && <AdditionalInfoSection />}
 
               <Box display="flex" justifyContent="space-between" mt={4}>
                 <Button
@@ -166,9 +167,9 @@ const TourPackageForm = () => {
                   variant="contained"
                   onClick={() => {
                     if (activeStep === steps.length - 1) {
-                      handleSubmit(values);
+                      setTimeout(() => handleSubmit(values), 0);
                     } else {
-                      setActiveStep((prev) => prev + 1);
+                      setTimeout(() => setActiveStep((prev) => prev + 1), 0);
                     }
                   }}
                 >

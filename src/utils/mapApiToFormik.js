@@ -34,33 +34,37 @@ export const mapApiToFormik = (data) => ({
     pricePerPerson: data.pricing?.pricePerPerson ?? "",
     currency: data.pricing?.currency || "",
     discount: {
-      discountType: data.pricing?.discount?.discountType || "",
       discountValue: data.pricing?.discount?.discountValue ?? "",
       minGroupSize: data.pricing?.discount?.minGroupSize ?? "",
-      startDate: data.pricing?.discount?.startDate || "",
-      endDate: data.pricing?.discount?.endDate || "",
     },
-    availability: Array.isArray(data.pricing?.availability)
-      ? data.pricing.availability.map((item) => ({
-          start_date: item.start_date || "",
-          end_date: item.end_date || "",
-          max_guests: item.max_guests ?? "",
-          is_available: item.is_available ?? true,
-        }))
-      : [],
   },
+
+  availability: Array.isArray(data.availability)
+    ? data.availability.map((item) => ({
+        startDate: item.startDate || "",
+        endDate: item.endDate || "",
+        minGuests: item.minGuests ?? "",
+        maxGuests: item.maxGuests ?? "",
+        isAvailable: item.isAvailable ?? true,
+      }))
+    : [
+        {
+          startDate: "",
+          endDate: "",
+          minGuests: "",
+          maxGuests: "",
+          isAvailable: true,
+        },
+      ],
 
   booking: {
     cancellationPolicy: data.booking?.cancellationPolicy || "",
     paymentMethods: Array.isArray(data.booking?.paymentMethods)
       ? data.booking.paymentMethods.map((method) => ({
-          id: method.id ?? "",
           name: method.name || "",
           type: method.type || "local",
         }))
-      : [{ id: "", name: "", type: "local" }],
-    minGroupSize: data.booking?.minGroupSize ?? "",
-    maxGroupSize: data.booking?.maxGroupSize ?? "",
+      : [{ name: "", type: "local" }],
   },
 
   media: {
