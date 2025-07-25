@@ -57,6 +57,10 @@ function App() {
               element={<DistributorPricingForm />}
             />
             <Route path="/book/:tourId" element={<TourBookingPage />} />
+            <Route
+              path="/edit-package/:id"
+              element={<TourPackageForm mode="edit" />}
+            />
             <Route path="/package/:id" element={<TourPackageSummary />} />
             <Route path="/create-package" element={<TourPackageForm />} />
           </Route>

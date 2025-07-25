@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Button,
   Typography,
@@ -11,9 +12,12 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import { uploadMedia } from "../services/common/uploadService";
-import axios from "../../features/tourPackage/services/api";
+import axios from "../../api/api";
 import { toast } from "react-toastify";
 import { tourFormConfig } from "../../config/formConfig";
+import { mapApiToFormik } from "../../utils/mapApiToFormik";
+import { getPackageById, updatePackage } from "../../api/packageApi";
+
 import BasicInfoSection from "./BasicInfoSection";
 import ItinerarySection from "./ItinerarySection";
 import MediaUploadSection from "./MediaUploadSection";
@@ -23,6 +27,14 @@ import AdditionalInfoSection from "./AdditionalInfoSection";
 import ConfirmationDialog from "./ConfirmationDialog";
 
 const TourPackageForm = () => {
+  const { id } = useParams();
+  const isEdit = Boolean(id);
+
+  const [initialValues, setInitialValues] = useState(
+    tourFormConfig.initialValues
+  );
+  const [loading, setLoading] = useState(isEdit);
+
   const [uploading, setUploading] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [formValues, setFormValues] = useState(null);
@@ -49,9 +61,17 @@ const TourPackageForm = () => {
   const handleConfirmSubmit = async () => {
     setConfirmOpen(false);
     try {
-      toast.info("Submitting package...");
-      const res = await axios.post("/api/packages", formValues);
-      toast.success("Tour package created successfully!");
+      toast.info(isEdit ? "Updating package..." : "Submitting package...");
+
+      const res = isEdit
+        ? await updatePackage(id, formValues)
+        : await axios.post("/api/packages", formValues);
+
+      toast.success(
+        isEdit
+          ? "Tour package updated successfully!"
+          : "Tour package created successfully!"
+      );
     } catch (err) {
       const message =
         err?.response?.data?.message || "Submission failed. Please try again.";
@@ -60,11 +80,31 @@ const TourPackageForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (isEdit) {
+      getPackageById(id)
+        .then((res) => {
+          const formatted = mapApiToFormik(res.data);
+          setInitialValues(formatted);
+        })
+        .catch((err) => {
+          toast.error("Failed to load package");
+          console.error(err);
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [id]);
+
+  if (loading) {
+    return <Typography>Loading package data...</Typography>;
+  }
+
   return (
     <Formik
-      initialValues={tourFormConfig.initialValues}
+      initialValues={initialValues}
       validationSchema={tourFormConfig.validationSchema}
       onSubmit={handleSubmit}
+      enableReinitialize
     >
       {({
         values,
@@ -87,7 +127,7 @@ const TourPackageForm = () => {
             />
           )}
           <Typography variant="h5" mb={2}>
-            Create Tour Package
+            {isEdit ? "Edit Tour Package" : "Create Tour Package"}
           </Typography>
           <Stepper activeStep={activeStep}>
             {steps.map((label) => (
