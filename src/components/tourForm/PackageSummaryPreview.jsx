@@ -32,7 +32,17 @@ const TourPackageSummary = () => {
         const response = await fetch(`${API_URL}/${id}`);
         if (!response.ok) throw new Error("Failed to fetch tour details");
         const data = await response.json();
-        setTour(data);
+        setTour({
+          ...data,
+          media: {
+            ...data.media,
+            tourImages: data.media?.tourImages?.filter((img) => img?.url),
+            tourVideos: data.media?.tourVideos?.filter((vid) => vid?.url),
+            additionalFiles: data.media?.additionalFiles?.filter(
+              (file) => file?.url
+            ),
+          },
+        });
       } catch (error) {
         console.error(error);
         setTour(null);
@@ -96,7 +106,6 @@ const TourPackageSummary = () => {
         </Typography>
       </Box>
 
-      {/* Pricing Section */}
       <Card>
         <CardHeader title="Pricing" />
         <CardContent>
@@ -114,24 +123,25 @@ const TourPackageSummary = () => {
               <Typography variant="body2" color="text.secondary">
                 Availability
               </Typography>
-              {tour.pricing?.availability.map((a, idx) => (
-                <Box
-                  key={idx}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: "0.875rem",
-                    mt: 0.5,
-                  }}
-                >
-                  <span>Max {a.max_guests} guests</span>
-                  <span
-                    style={{ color: a.is_available ? "#2e7d32" : "#d32f2f" }}
+              {Array.isArray(tour.pricing?.availability) &&
+                tour.pricing?.availability.map((a, idx) => (
+                  <Box
+                    key={idx}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "0.875rem",
+                      mt: 0.5,
+                    }}
                   >
-                    {a.is_available ? "Available" : "Unavailable"}
-                  </span>
-                </Box>
-              ))}
+                    <span>Max {a.max_guests} guests</span>
+                    <span
+                      style={{ color: a.is_available ? "#2e7d32" : "#d32f2f" }}
+                    >
+                      {a.is_available ? "Available" : "Unavailable"}
+                    </span>
+                  </Box>
+                ))}
             </Grid>
           </Grid>
 
@@ -152,7 +162,6 @@ const TourPackageSummary = () => {
         </CardContent>
       </Card>
 
-      {/* Experience Section */}
       <Card>
         <CardHeader title="Experience" />
         <CardContent>
@@ -192,15 +201,15 @@ const TourPackageSummary = () => {
         </CardContent>
       </Card>
 
-      {/* Booking Details */}
       <Card>
         <CardHeader title="Booking Details" />
         <CardContent>
           <Typography fontWeight={600}>Payment Methods:</Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, my: 1 }}>
-            {tour.booking?.paymentMethods.map((m, i) => (
-              <Chip key={i} label={m.name} />
-            ))}
+            {Array.isArray(tour.booking?.paymentMethods) &&
+              tour.booking?.paymentMethods.map((m, i) => (
+                <Chip key={i} label={m.name} />
+              ))}
           </Box>
 
           <Box sx={{ display: "flex", gap: 2, my: 2 }}>
@@ -219,58 +228,77 @@ const TourPackageSummary = () => {
         </CardContent>
       </Card>
 
-      {/* Media Section */}
       <Card>
         <CardHeader title="Media & Assets" />
         <CardContent>
-          {tour.media?.tourImages?.length > 0 && (
-            <Box>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Image URLs
-              </Typography>
-              {tour.media.tourImages.map((img, i) => (
-                <Box key={i}>
-                  <a href={img.url} target="_blank" rel="noopener noreferrer">
-                    Image {i + 1}
-                  </a>
-                </Box>
-              ))}
-            </Box>
-          )}
+          {Array.isArray(tour.media?.tourImages) &&
+            tour.media.tourImages.length > 0 && (
+              <Box>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  Image URLs
+                </Typography>
+                {tour.media.tourImages.map((img, i) =>
+                  img?.url ? (
+                    <Box key={i}>
+                      <a
+                        href={img.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Image {i + 1}
+                      </a>
+                    </Box>
+                  ) : null
+                )}
+              </Box>
+            )}
 
-          {tour.media?.tourVideos?.length > 0 && (
-            <Box mt={2}>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Video URLs
-              </Typography>
-              {tour.media.tourVideos.map((vid, i) => (
-                <Box key={i}>
-                  <a href={vid.url} target="_blank" rel="noopener noreferrer">
-                    Video {i + 1}
-                  </a>
-                </Box>
-              ))}
-            </Box>
-          )}
+          {Array.isArray(tour.media?.tourVideos) &&
+            tour.media.tourVideos.length > 0 && (
+              <Box mt={2}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  Video URLs
+                </Typography>
+                {tour.media.tourVideos.map((vid, i) =>
+                  vid?.url ? (
+                    <Box key={i}>
+                      <a
+                        href={vid.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Video {i + 1}
+                      </a>
+                    </Box>
+                  ) : null
+                )}
+              </Box>
+            )}
 
-          {tour.media?.additionalFiles?.length > 0 && (
-            <Box mt={2}>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Other Files
-              </Typography>
-              {tour.media.additionalFiles.map((file, i) => (
-                <Box key={i}>
-                  <a href={file.url} target="_blank" rel="noopener noreferrer">
-                    File {i + 1}
-                  </a>
-                </Box>
-              ))}
-            </Box>
-          )}
+          {Array.isArray(tour.media?.additionalFiles) &&
+            tour.media.additionalFiles.length > 0 && (
+              <Box mt={2}>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  Other Files
+                </Typography>
+                {tour.media.additionalFiles.map((file, i) =>
+                  file?.url ? (
+                    <Box key={i}>
+                      <a
+                        href={file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        File {i + 1}
+                      </a>
+                    </Box>
+                  ) : null
+                )}
+              </Box>
+            )}
         </CardContent>
       </Card>
 
-      {/* Additional Info */}
       <Card>
         <CardHeader title="Additional Information" />
         <CardContent>
@@ -286,7 +314,9 @@ const TourPackageSummary = () => {
           </Box>
           <Box mt={2}>
             <Typography fontWeight={600}>Tour Tags</Typography>
-            <Typography>{tour.additional?.tags.join(", ")}</Typography>
+            {Array.isArray(tour.additional?.tags) && (
+              <Typography>{tour.additional.tags.join(", ")}</Typography>
+            )}
           </Box>
         </CardContent>
       </Card>

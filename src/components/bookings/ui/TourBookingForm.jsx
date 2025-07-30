@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -17,6 +18,12 @@ import { useNavigate } from "react-router-dom";
 const paymentOptions = ["Paystack", "Flutterwave", "Bank Transfer"];
 
 const TourBookingForm = () => {
+  const { tourId } = useParams();
+  const [searchParams] = useSearchParams();
+  const distributorId = searchParams.get("distributorId");
+  const tourTitle = searchParams.get("tourTitle");
+  const [tour, setTour] = useState(null);
+
   const navigate = useNavigate();
   const [status, setStatus] = React.useState({
     loading: false,
@@ -29,7 +36,7 @@ const TourBookingForm = () => {
     const fetchTourDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/packages/${tourId}`
+          `http://localhost:5000/api/widget/${distributorId}?tourId=${tourId}`
         );
         if (!response.ok) throw new Error("Tour not found");
 
@@ -63,7 +70,6 @@ const TourBookingForm = () => {
       date: Yup.date().required("Date is required"),
       phone: Yup.string().required("Phone number is required"),
       travelers: Yup.number().min(1, "Must be at least 1").required(),
-      paymentMethod: Yup.string().required("Select a payment method"),
     }),
     onSubmit: async (values) => {
       setStatus({ loading: true, success: "", error: "" });
@@ -89,7 +95,6 @@ const TourBookingForm = () => {
             },
             date: values.date,
             travelers: values.travelers,
-            paymentMethod: values.paymentMethod,
           }),
         });
 
@@ -160,8 +165,7 @@ const TourBookingForm = () => {
       </Typography>
 
       <Typography variant="subtitle1" fontWeight="medium" mb={3}>
-        Price: {tour?.pricing?.currency}{" "}
-        {tour?.pricing?.pricePerPerson?.toLocaleString()}
+        Price: {tour?.currency || "₦"} {tour?.price?.toLocaleString()}
       </Typography>
 
       <form onSubmit={formik.handleSubmit} noValidate>
@@ -223,51 +227,6 @@ const TourBookingForm = () => {
             error={formik.touched.travelers && !!formik.errors.travelers}
             helperText={formik.touched.travelers && formik.errors.travelers}
           />
-          <Typography variant="subtitle1" fontWeight="500">
-            Select Payment Method
-          </Typography>
-          <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap" }}>
-            {(tour?.booking?.paymentMethods || []).map((option) => {
-              const isSelected = formik.values.paymentMethod === option;
-              const icon = {
-                Paystack: "💳",
-                Flutterwave: "🌊",
-                "Bank Transfer": "🏦",
-              }[option];
-
-              return (
-                <Box
-                  key={option}
-                  onClick={() => formik.setFieldValue("paymentMethod", option)}
-                  sx={{
-                    p: 2,
-                    borderRadius: 2,
-                    border: "2px solid",
-                    borderColor: isSelected ? "primary.main" : "grey.300",
-                    cursor: "pointer",
-                    width: 160,
-                    textAlign: "center",
-                    backgroundColor: isSelected
-                      ? "primary.light"
-                      : "transparent",
-                  }}
-                >
-                  <Typography variant="h3">{icon}</Typography>
-                  <Typography
-                    variant="body1"
-                    fontWeight={isSelected ? 600 : 400}
-                  >
-                    {option.name}
-                  </Typography>
-                </Box>
-              );
-            })}
-          </Stack>
-          {formik.touched.paymentMethod && formik.errors.paymentMethod && (
-            <Typography color="error" fontSize={12}>
-              {formik.errors.paymentMethod}
-            </Typography>
-          )}
 
           <Button
             type="submit"

@@ -14,12 +14,12 @@ import SignUp from "./features/auth/Signup";
 import TourOwnerDashboard from "./pages/TourOwnerDashboard";
 import TourDistributorDashboard from "./pages/TourDistributorDashboard";
 import TourPackageForm from "./components/tourForm/TourPackageForm";
-import TourPackageSummary from "./features/tourPackage/pages/PackageSummaryPreview";
+import TourPackageSummary from "./components/tourForm/PackageSummaryPreview";
 import DistributorPricingForm from "./features/pricingRules/distributor/form/DistributorPricingForm";
 import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingForm";
 import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
-import TourBookingPage from "./features/manageBooking/pages/TourBookingPage";
+import TourBookingPage from "./components/bookings/TourBookingPage";
 import TourOwnerBookingsPage from "./features/manageBooking/pages/TourOwnerBookingsPage";
 
 function App() {

@@ -164,6 +164,7 @@ const TourDistributorDashboard = () => {
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-between",
+                        p: 2.5,
                       }}
                     >
                       <Box>

@@ -41,9 +41,7 @@ const TourPackageTable = () => {
           price: `${pkg.pricing.pricePerPerson?.toLocaleString()} ${
             pkg.pricing.currency || ""
           }`,
-          status: pkg.pricing.availability?.[0]?.is_available
-            ? "active"
-            : "inactive",
+          createdAt: new Date(pkg.createdAt).toLocaleDateString(),
         }));
 
         setTourPackages(formattedPackages);
@@ -112,7 +110,7 @@ const TourPackageTable = () => {
                 <strong>Price</strong>
               </TableCell>
               <TableCell>
-                <strong>Status</strong>
+                <strong>Created</strong>
               </TableCell>
               <TableCell>
                 <strong>Actions</strong>
@@ -146,14 +144,7 @@ const TourPackageTable = () => {
                   <TableCell>{pkg.location}</TableCell>
                   <TableCell>{pkg.duration} days</TableCell>
                   <TableCell>{pkg.price}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={pkg.status}
-                      size="small"
-                      color={pkg.status === "active" ? "success" : "warning"}
-                      variant="outlined"
-                    />
-                  </TableCell>
+                  <TableCell>{pkg.createdAt}</TableCell>
                   <TableCell
                     onClick={(e) => e.stopPropagation()}
                     sx={{ whiteSpace: "nowrap" }}
