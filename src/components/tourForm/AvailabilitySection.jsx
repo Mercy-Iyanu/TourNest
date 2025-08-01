@@ -98,10 +98,11 @@ const AvailabilitySection = () => {
               color="primary"
               onClick={() =>
                 push({
-                  start_date: "",
-                  end_date: "",
-                  max_guests: "",
-                  is_available: true,
+                  startDate: "",
+                  endDate: "",
+                  minGuests: "",
+                  maxGuests: "",
+                  isAvailable: true,
                 })
               }
               sx={{ mt: 2 }}

@@ -1,3 +1,5 @@
+const formatDate = (iso) => (iso ? iso.slice(0, 10) : "");
+
 export const mapApiToFormik = (data) => ({
   basicInfo: {
     tour_name: data.basicInfo?.tour_name || "",
@@ -41,8 +43,8 @@ export const mapApiToFormik = (data) => ({
 
   availability: Array.isArray(data.availability)
     ? data.availability.map((item) => ({
-        startDate: item.startDate || "",
-        endDate: item.endDate || "",
+        startDate: formatDate(item.startDate),
+        endDate: formatDate(item.endDate),
         minGuests: item.minGuests ?? "",
         maxGuests: item.maxGuests ?? "",
         isAvailable: item.isAvailable ?? true,
