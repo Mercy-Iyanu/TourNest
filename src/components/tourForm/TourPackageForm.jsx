@@ -112,7 +112,7 @@ const TourPackageForm = () => {
       onSubmit={handleSubmit}
       enableReinitialize
     >
-      {({ values, errors, touched }) => (
+      {({ values, errors, touched, dirty }) => (
         <>
           {uploading && (
             <LinearProgress
@@ -125,7 +125,16 @@ const TourPackageForm = () => {
               }}
             />
           )}
-          <Button onClick={() => setConfirmBackOpen(true)} sx={{ mb: 2 }}>
+          <Button
+            onClick={() => {
+              if (dirty) {
+                setConfirmBackOpen(true);
+              } else {
+                navigate(-1);
+              }
+            }}
+            sx={{ mb: 2 }}
+          >
             ← Back
           </Button>
           <Typography variant="h5" mb={2}>
