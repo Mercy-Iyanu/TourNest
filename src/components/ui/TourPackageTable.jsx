@@ -10,13 +10,12 @@ import {
   TableRow,
   Typography,
   IconButton,
-  Chip,
   CircularProgress,
   Box,
 } from "@mui/material";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
-import ConfirmDialog from "./ConfirmDialog";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 const API_URL = "http://localhost:5000/api/packages";
 
@@ -166,13 +165,14 @@ const TourPackageTable = () => {
               ))
             )}
           </TableBody>
-          <ConfirmDialog
+          <ConfirmationDialog
             open={dialogOpen}
+            onCancel={closeDeleteDialog}
+            onConfirm={confirmDelete}
             title="Confirm Deletion"
             description="Are you sure you want to delete this package? This action is irreversible."
-            onClose={closeDeleteDialog}
-            onConfirm={confirmDelete}
             confirmText="Delete"
+            confirmColor="error"
           />
         </Table>
       </TableContainer>

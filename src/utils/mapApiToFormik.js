@@ -57,16 +57,6 @@ export const mapApiToFormik = (data) => ({
         },
       ],
 
-  booking: {
-    cancellationPolicy: data.booking?.cancellationPolicy || "",
-    paymentMethods: Array.isArray(data.booking?.paymentMethods)
-      ? data.booking.paymentMethods.map((method) => ({
-          name: method.name || "",
-          type: method.type || "local",
-        }))
-      : [{ name: "", type: "local" }],
-  },
-
   media: {
     tourImages: Array.isArray(data.media?.tourImages)
       ? data.media.tourImages
@@ -81,6 +71,7 @@ export const mapApiToFormik = (data) => ({
 
   additional: {
     requirements: data.additional?.requirements || "",
+    cancellationPolicy: data.booking?.cancellationPolicy || "",
     contact: {
       name: data.additional?.contact?.name || "",
       phone: data.additional?.contact?.phone || "",

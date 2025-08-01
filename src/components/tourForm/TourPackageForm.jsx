@@ -7,7 +7,6 @@ import {
   Stepper,
   Step,
   StepLabel,
-  MobileStepper,
   LinearProgress,
 } from "@mui/material";
 import { Formik, Form } from "formik";
@@ -23,9 +22,8 @@ import BasicInfoSection from "./BasicInfoSection";
 import ItinerarySection from "./ItinerarySection";
 import MediaUploadSection from "./MediaUploadSection";
 import AvailabilitySection from "./AvailabilitySection";
-import BookingSection from "./BookingSection";
 import AdditionalInfoSection from "./AdditionalInfoSection";
-import ConfirmationDialog from "./ConfirmationDialog";
+import ConfirmationDialog from "../ui/ConfirmationDialog";
 import PricingSection from "./PricingSection";
 
 const TourPackageForm = () => {
@@ -41,13 +39,15 @@ const TourPackageForm = () => {
   const [uploading, setUploading] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [formValues, setFormValues] = useState(null);
+
+  const [confirmBackOpen, setConfirmBackOpen] = useState(false);
+
   const steps = [
     "Basic Info",
     "Itinerary",
     "Pricing",
     "Availability",
     "Media",
-    "Booking",
     "Additional Info",
   ];
   const [activeStep, setActiveStep] = useState(0);
@@ -125,6 +125,9 @@ const TourPackageForm = () => {
               }}
             />
           )}
+          <Button onClick={() => setConfirmBackOpen(true)} sx={{ mb: 2 }}>
+            ← Back
+          </Button>
           <Typography variant="h5" mb={2}>
             {isEdit ? "Edit Tour Package" : "Create Tour Package"}
           </Typography>
@@ -153,8 +156,7 @@ const TourPackageForm = () => {
                 <MediaUploadSection handleMediaUpload={handleMediaUpload} />
               )}
 
-              {activeStep === 5 && <BookingSection />}
-              {activeStep === 6 && <AdditionalInfoSection />}
+              {activeStep === 5 && <AdditionalInfoSection />}
 
               <Box display="flex" justifyContent="space-between" mt={4}>
                 <Button
@@ -182,6 +184,19 @@ const TourPackageForm = () => {
             open={confirmOpen}
             onCancel={() => setConfirmOpen(false)}
             onConfirm={handleConfirmSubmit}
+            title="Confirm Submission"
+            description="Are you sure you want to submit this tour package? This action will save it to the database."
+            confirmText="Yes, Submit"
+            confirmColor="primary"
+          />
+          <ConfirmationDialog
+            open={confirmBackOpen}
+            onCancel={() => setConfirmBackOpen(false)}
+            onConfirm={() => navigate(-1)}
+            title="Discard Changes?"
+            description="Are you sure you want to go back? Any unsaved changes will be lost."
+            confirmText="Yes, Go Back"
+            confirmColor="warning"
           />
         </>
       )}

@@ -56,21 +56,9 @@ export const tourValidationSchema = Yup.object().shape({
     .min(1, "At least one availability period is required")
     .required("Availability is required"),
 
-  booking: Yup.object().shape({
-    cancellationPolicy: Yup.string(),
-    paymentMethods: Yup.array().of(
-      Yup.object().shape({
-        id: Yup.number().required("ID is required"),
-        name: Yup.string().required("Name is required"),
-        type: Yup.string()
-          .oneOf(["local", "international"])
-          .required("Payment type is required"),
-      })
-    ),
-  }),
-
   additional: Yup.object().shape({
     requirements: Yup.string(),
+    cancellationPolicy: Yup.string(),
     contact: Yup.object().shape({
       name: Yup.string(),
       phone: Yup.string().matches(

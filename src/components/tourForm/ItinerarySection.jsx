@@ -1,50 +1,57 @@
 import React from "react";
-import { TextField, Button, Grid, Typography } from "@mui/material";
+import { TextField, Button, Typography, Box } from "@mui/material";
 import { useFormikContext, FieldArray } from "formik";
 
 const ItinerarySection = () => {
   const { values, handleChange } = useFormikContext();
 
   return (
-    <>
-      <Typography variant="h6" mt={4}>
+    <Box display="flex" flexDirection="column" gap={2}>
+      <Typography variant="h6" gutterBottom>
         Itinerary
       </Typography>
+
       <FieldArray name="itinerary">
         {({ push, remove }) => (
           <>
             {values.itinerary.map((item, index) => (
-              <Grid container spacing={2} key={index}>
+              <Box
+                key={index}
+                p={2}
+                border={1}
+                borderColor="grey.300"
+                borderRadius={2}
+                display="flex"
+                flexDirection="column"
+                gap={2}
+              >
                 {["day", "title", "description", "location"].map((field) => (
-                  <Grid item xs={12} sm={6} key={field}>
-                    <TextField
-                      fullWidth
-                      label={field.charAt(0).toUpperCase() + field.slice(1)}
-                      name={`itinerary[${index}].${field}`}
-                      value={values.itinerary[index][field]}
-                      onChange={handleChange}
-                    />
-                  </Grid>
+                  <TextField
+                    fullWidth
+                    label={field.charAt(0).toUpperCase() + field.slice(1)}
+                    name={`itinerary[${index}].${field}`}
+                    value={values.itinerary[index][field]}
+                    onChange={handleChange}
+                  />
                 ))}
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Start Time"
-                    name={`itinerary[${index}].startTime`}
-                    value={values.itinerary[index].startTime}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="End Time"
-                    name={`itinerary[${index}].endTime`}
-                    value={values.itinerary[index].endTime}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
+
+                <TextField
+                  fullWidth
+                  label="Start Time"
+                  name={`itinerary[${index}].startTime`}
+                  value={values.itinerary[index].startTime}
+                  onChange={handleChange}
+                />
+
+                <TextField
+                  fullWidth
+                  label="End Time"
+                  name={`itinerary[${index}].endTime`}
+                  value={values.itinerary[index].endTime}
+                  onChange={handleChange}
+                />
+
+                <Box>
                   <Button
                     variant="outlined"
                     color="error"
@@ -53,11 +60,11 @@ const ItinerarySection = () => {
                   >
                     Remove Day
                   </Button>
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             ))}
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               onClick={() =>
                 push({
@@ -76,7 +83,7 @@ const ItinerarySection = () => {
           </>
         )}
       </FieldArray>
-    </>
+    </Box>
   );
 };
 

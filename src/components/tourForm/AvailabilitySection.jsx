@@ -1,35 +1,38 @@
 import React from "react";
 import {
-  Grid,
+  Box,
   TextField,
-  IconButton,
   Typography,
   Switch,
   FormControlLabel,
   Button,
 } from "@mui/material";
 import { FieldArray, useFormikContext } from "formik";
-import { AddCircleOutline, Delete } from "@mui/icons-material";
 
 const AvailabilitySection = () => {
   const { values, handleChange } = useFormikContext();
 
   return (
-    <FieldArray name="availability">
-      {({ push, remove }) => (
-        <>
-          <Typography variant="h6" gutterBottom>
-            Availability
-          </Typography>
+    <Box display="flex" flexDirection="column" gap={2}>
+      <Typography variant="h6" gutterBottom>
+        Availability
+      </Typography>
 
-          {values.availability.map((item, index) => (
-            <Grid
-              container
-              spacing={2}
-              key={index}
-              sx={{ borderBottom: "1px solid #ddd", mb: 2, pb: 2 }}
-            >
-              <Grid item xs={5}>
+      <FieldArray name="availability">
+        {({ push, remove }) => (
+          <>
+            {values.availability.map((item, index) => (
+              <Box
+                gap={2}
+                p={2}
+                key={index}
+                border={1}
+                borderColor="grey.300"
+                borderRadius={2}
+                display="flex"
+                flexDirection="column"
+                sx={{ borderBottom: "1px solid #ddd", mb: 2, pb: 2 }}
+              >
                 <TextField
                   fullWidth
                   label="Start Date"
@@ -39,9 +42,7 @@ const AvailabilitySection = () => {
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
                 />
-              </Grid>
 
-              <Grid item xs={5}>
                 <TextField
                   fullWidth
                   label="End Date"
@@ -51,9 +52,7 @@ const AvailabilitySection = () => {
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
                 />
-              </Grid>
 
-              <Grid item xs={4}>
                 <TextField
                   fullWidth
                   label="Min Guests"
@@ -62,9 +61,7 @@ const AvailabilitySection = () => {
                   value={item.minGuests}
                   onChange={handleChange}
                 />
-              </Grid>
 
-              <Grid item xs={4}>
                 <TextField
                   fullWidth
                   label="Max Guests"
@@ -73,9 +70,7 @@ const AvailabilitySection = () => {
                   value={item.maxGuests}
                   onChange={handleChange}
                 />
-              </Grid>
 
-              <Grid item xs={4}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -86,31 +81,37 @@ const AvailabilitySection = () => {
                   }
                   label="Is Available"
                 />
-              </Grid>
+                <Box>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => remove(index)}
+                  >
+                    Remove Availability
+                  </Button>
+                </Box>
+              </Box>
+            ))}
 
-              <Grid item xs={12} sm={1}>
-                <Button color="error" onClick={() => remove(index)}>
-                  Remove
-                </Button>
-              </Grid>
-            </Grid>
-          ))}
-
-          <Button
-            onClick={() =>
-              push({
-                start_date: "",
-                end_date: "",
-                max_guests: "",
-                is_available: true,
-              })
-            }
-          >
-            Add Availability
-          </Button>
-        </>
-      )}
-    </FieldArray>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() =>
+                push({
+                  start_date: "",
+                  end_date: "",
+                  max_guests: "",
+                  is_available: true,
+                })
+              }
+              sx={{ mt: 2 }}
+            >
+              Add Availability
+            </Button>
+          </>
+        )}
+      </FieldArray>
+    </Box>
   );
 };
 

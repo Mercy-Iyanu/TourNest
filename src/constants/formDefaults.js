@@ -35,10 +35,6 @@ export const tourInitialValues = {
       isAvailable: true,
     },
   ],
-  booking: {
-    cancellationPolicy: "",
-    paymentMethods: [{ name: "", type: "local" }],
-  },
   media: {
     tourImages: [],
     tourVideos: [],
@@ -46,6 +42,7 @@ export const tourInitialValues = {
   },
   additional: {
     requirements: "",
+    cancellationPolicy: "",
     contact: {
       name: "",
       phone: "",

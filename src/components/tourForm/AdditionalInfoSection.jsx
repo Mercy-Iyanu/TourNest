@@ -32,7 +32,7 @@ const AdditionalInfoSection = () => {
         fullWidth
         multiline
         minRows={2}
-        label="Requirements"
+        label="Tour Requirements"
         name="additional.requirements"
         {...getFieldProps("additional.requirements")}
         error={
@@ -41,6 +41,24 @@ const AdditionalInfoSection = () => {
         }
         helperText={
           touched?.additional?.requirements && errors?.additional?.requirements
+        }
+        margin="normal"
+      />
+
+      <TextField
+        fullWidth
+        multiline
+        minRows={2}
+        label="Cancellation Policies"
+        name="additional.cancellationPolicy"
+        {...getFieldProps("additional.cancellationPolicy")}
+        error={
+          touched?.additional?.cancellationPolicy &&
+          Boolean(errors?.additional?.cancellationPolicy)
+        }
+        helperText={
+          touched?.additional?.cancellationPolicy &&
+          errors?.additional?.cancellationPolicy
         }
         margin="normal"
       />
