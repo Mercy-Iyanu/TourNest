@@ -112,7 +112,10 @@ const DistributorBookingWidget = ({ distributorId }) => {
               navigate(
                 `/book/${tour.id}?distributorId=${encodeURIComponent(
                   distributorId
-                )}&tourTitle=${encodeURIComponent(tour.title)}`
+                )}&tourTitle=${encodeURIComponent(tour.title)}`,
+                {
+                  state: { tour },
+                }
               )
             }
             aria-label={`Book ${tour.title}`}

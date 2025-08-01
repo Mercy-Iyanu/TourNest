@@ -7,22 +7,23 @@ import {
   Stack,
   TextField,
   Alert,
-  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
-import { useNavigate } from "react-router-dom";
-
-const paymentOptions = ["Paystack", "Flutterwave", "Bank Transfer"];
+import { useNavigate, useLocation } from "react-router-dom";
 
 const TourBookingForm = () => {
   const { tourId } = useParams();
   const [searchParams] = useSearchParams();
   const distributorId = searchParams.get("distributorId");
   const tourTitle = searchParams.get("tourTitle");
-  const [tour, setTour] = useState(null);
+
+  const location = useLocation();
+  const passedTour = location.state?.tour;
+  const [loadingTour, setLoadingTour] = useState(!passedTour);
+  const [tour, setTour] = useState(passedTour || null);
 
   const navigate = useNavigate();
   const [status, setStatus] = React.useState({
@@ -30,9 +31,10 @@ const TourBookingForm = () => {
     success: "",
     error: "",
   });
-  const [loadingTour, setLoadingTour] = useState(true);
 
   useEffect(() => {
+    if (passedTour) return;
+
     const fetchTourDetails = async () => {
       try {
         const response = await fetch(
@@ -53,7 +55,7 @@ const TourBookingForm = () => {
     };
 
     fetchTourDetails();
-  }, [tourId]);
+  }, [tourId, distributorId, passedTour]);
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +64,6 @@ const TourBookingForm = () => {
       date: "",
       phone: "",
       travelers: 1,
-      paymentMethod: "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Full name is required"),
@@ -74,46 +75,26 @@ const TourBookingForm = () => {
     onSubmit: async (values) => {
       setStatus({ loading: true, success: "", error: "" });
 
-      if (window.dataLayer) {
-        window.dataLayer.push({
-          event: "tour_booking_attempt",
-          bookingData: { ...values, tourTitle },
-        });
-      }
-
       try {
-        const res = await fetch("http://localhost:5000/api/bookings", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            tourId,
-            distributorId,
-            userDetails: {
-              name: values.name,
-              email: values.email,
-              phone: values.phone,
-            },
-            date: values.date,
-            travelers: values.travelers,
-          }),
-        });
+        const res = await fetch(
+          "http://localhost:5000/api/payment/initialize",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ...values,
+              tourId,
+              distributorId,
+            }),
+          }
+        );
 
-        if (!res.ok) throw new Error("Booking failed");
+        const data = await res.json();
 
-        setStatus({
-          loading: false,
-          success: "Booking submitted successfully!",
-          error: "",
-        });
+        if (!res.ok)
+          throw new Error(data.error || "Failed to initialize payment");
 
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: "tour_booking_success",
-            bookingData: { ...values, tourTitle },
-          });
-        }
-
-        formik.resetForm();
+        window.location.href = data.authUrl;
       } catch (err) {
         setStatus({
           loading: false,

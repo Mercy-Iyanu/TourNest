@@ -15,12 +15,13 @@ import TourOwnerDashboard from "./pages/TourOwnerDashboard";
 import TourDistributorDashboard from "./pages/TourDistributorDashboard";
 import TourPackageForm from "./components/tourForm/TourPackageForm";
 import TourPackageSummary from "./components/tourForm/PackageSummaryPreview";
-import DistributorPricingForm from "./features/pricingRules/distributor/form/DistributorPricingForm";
+import DistributorPricingForm from "./components/pricing/DistributorPricingForm";
 import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingForm";
 import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
 import TourBookingPage from "./components/bookings/TourBookingPage";
 import TourOwnerBookingsPage from "./features/manageBooking/pages/TourOwnerBookingsPage";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -42,6 +43,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+
         {isAuthenticated ? (
           <Route path="/" element={<Layout />}>
             <Route index element={<TourInventoryPage />} />

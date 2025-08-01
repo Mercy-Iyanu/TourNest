@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import DistributorBookingWidget from "../../../widget/DistributorBookingWidget";
+import DistributorBookingWidget from "../widget/DistributorBookingWidget";
 
 export default function DistributorPricingForm() {
   const [ruleName, setRuleName] = useState("");
