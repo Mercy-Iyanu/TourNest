@@ -1,4 +1,4 @@
-import axios from "../../../api/api";
+import axios from "../api/api";
 import { toast } from "react-toastify";
 
 export const uploadMedia = async (files, setProgress = () => {}) => {

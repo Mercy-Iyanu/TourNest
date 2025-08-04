@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import TourPackageTable from "../components/ui/TourPackageTable";
+import TourPackageTable from "../../tourPackage/ui/TourPackageTable";
 import {
   Container,
   Box,

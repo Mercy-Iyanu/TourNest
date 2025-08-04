@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Stack } from "@mui/material";
 import { useFormikContext } from "formik";
-import DropzoneField from "../services/common/DropzoneField";
+import DropzoneField from "../services/DropzoneField";
 
 const MediaUploadSection = ({ handleMediaUpload }) => {
   const { setFieldValue } = useFormikContext();

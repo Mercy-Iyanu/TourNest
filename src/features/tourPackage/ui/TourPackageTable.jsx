@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
-import ConfirmationDialog from "./ConfirmationDialog";
+import ConfirmationDialog from "../../../shared/ui/ConfirmationDialog";
 
 const API_URL = "http://localhost:5000/api/packages";
 

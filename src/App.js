@@ -7,21 +7,20 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TourInventoryPage from "./pages/TourInventory";
-import Login from "../src/features/auth/Login";
-import Layout from "./components/layout/Layout";
+import Login from "./features/auth/Login";
+import Layout from "./layout/Layout";
 import SignUp from "./features/auth/Signup";
-import TourOwnerDashboard from "./pages/TourOwnerDashboard";
-import TourDistributorDashboard from "./pages/TourDistributorDashboard";
-import TourPackageForm from "./components/tourForm/TourPackageForm";
-import TourPackageSummary from "./components/tourForm/PackageSummaryPreview";
-import DistributorPricingForm from "./components/pricing/DistributorPricingForm";
-import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingForm";
-import ForgotPassword from "./features/auth/pages/ForgotPassword";
-import ResetPassword from "./features/auth/pages/ResetPassword";
-import TourBookingPage from "./components/bookings/TourBookingPage";
-import TourOwnerBookingsPage from "./features/manageBooking/pages/TourOwnerManageBookingTable";
-import PaymentSuccess from "./pages/PaymentSuccess";
+import TourOwnerDashboard from "./features/dashboard/pages/TourOwnerDashboard";
+import TourDistributorDashboard from "./features/dashboard/pages/TourDistributorDashboard";
+import TourPackageForm from "./features/tourPackage/form/TourPackageForm";
+import TourPackageSummary from "./features/tourPackage/pages/PackageSummaryPreview";
+import DistributorPricingForm from "./features/pricing/components/DistributorPricingForm";
+import OwnerPricingForm from "./features/pricing/components/OwnerPricingForm";
+import ForgotPassword from "./features/auth/ForgotPassword";
+import ResetPassword from "./features/auth/ResetPassword";
+import TourBookingPage from "./features/bookings/pages/TourBookingPage";
+import TourOwnerManageBookingTable from "./features/bookings/components/TourOwnerManageBookingTable";
+import PaymentSuccess from "./features/payments/pages/PaymentSuccess";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -47,9 +46,11 @@ function App() {
 
         {isAuthenticated ? (
           <Route path="/" element={<Layout />}>
-            <Route index element={<TourInventoryPage />} />
             <Route path="/owner-dashboard" element={<TourOwnerDashboard />} />
-            <Route path="/manage-booking" element={<TourOwnerBookingsPage />} />
+            <Route
+              path="/manage-booking"
+              element={<TourOwnerManageBookingTable />}
+            />
             <Route
               path="/distributor-dashboard"
               element={<TourDistributorDashboard />}

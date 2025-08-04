@@ -1,5 +1,5 @@
 import { tourInitialValues } from "../constants/formDefaults";
-import { tourValidationSchema } from "../validation/tourSchema";
+import { tourValidationSchema } from "../validations/tourSchema";
 
 export const tourFormConfig = {
   initialValues: tourInitialValues,

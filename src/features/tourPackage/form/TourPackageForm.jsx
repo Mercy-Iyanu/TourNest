@@ -12,18 +12,18 @@ import {
 import { Formik, Form } from "formik";
 import { toast } from "react-toastify";
 
-import { uploadMedia } from "../services/common/uploadService";
-import axios from "../../api/api";
-import { tourFormConfig } from "../../config/formConfig";
-import { mapApiToFormik } from "../../utils/mapApiToFormik";
-import { getPackageById, updatePackage } from "../../api/packageApi";
+import { uploadMedia } from "../services/uploadService";
+import axios from "../api/api";
+import { tourFormConfig } from "../config/formConfig";
+import { mapApiToFormik } from "../utils/mapApiToFormik";
+import { getPackageById, updatePackage } from "../api/packageApi";
 
 import BasicInfoSection from "./BasicInfoSection";
 import ItinerarySection from "./ItinerarySection";
 import MediaUploadSection from "./MediaUploadSection";
 import AvailabilitySection from "./AvailabilitySection";
 import AdditionalInfoSection from "./AdditionalInfoSection";
-import ConfirmationDialog from "../ui/ConfirmationDialog";
+import ConfirmationDialog from "../../../shared/ui/ConfirmationDialog";
 import PricingSection from "./PricingSection";
 
 const TourPackageForm = () => {

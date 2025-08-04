@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useLocation } from "react-router-dom";
-import TourBookingForm from "./ui/TourBookingForm";
+import TourBookingForm from "../components/TourBookingForm";
 
 const TourBookingPage = () => {
   const { tourId } = useParams();

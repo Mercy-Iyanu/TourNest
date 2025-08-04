@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ConfirmationDialog from "../../../components/ui/ConfirmationDialog";
+import ConfirmationDialog from "../../../shared/ui/ConfirmationDialog";
 
 const TourOwnerManageBookingTable = () => {
   const [bookings, setBookings] = useState([]);
