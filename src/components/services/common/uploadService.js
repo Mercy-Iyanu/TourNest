@@ -30,7 +30,7 @@ export const uploadMedia = async (files, setProgress = () => {}) => {
         autoClose: 3000,
       });
 
-      urls.push(res.data.secure_url);
+      urls.push(res.data.url);
     } catch (err) {
       toast.update(toastId, {
         render: `Failed to upload ${file.name}`,

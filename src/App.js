@@ -20,7 +20,7 @@ import OwnerPricingForm from "./features/pricingRules/owner/form/OwnerPricingFor
 import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
 import TourBookingPage from "./components/bookings/TourBookingPage";
-import TourOwnerBookingsPage from "./features/manageBooking/pages/TourOwnerBookingsPage";
+import TourOwnerBookingsPage from "./features/manageBooking/pages/TourOwnerManageBookingTable";
 import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {

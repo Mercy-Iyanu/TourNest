@@ -60,15 +60,9 @@ export const mapApiToFormik = (data) => ({
       ],
 
   media: {
-    tourImages: Array.isArray(data.media?.tourImages)
-      ? data.media.tourImages
-      : [],
-    tourVideos: Array.isArray(data.media?.tourVideos)
-      ? data.media.tourVideos
-      : [],
-    additionalFiles: Array.isArray(data.media?.additionalFiles)
-      ? data.media.additionalFiles
-      : [],
+    tourImages: data.media?.tourImages || [],
+    tourVideos: data.media?.tourVideos || [],
+    additionalFiles: data.media?.additionalFiles || [],
   },
 
   additional: {
