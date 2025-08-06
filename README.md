@@ -5,10 +5,10 @@ A simplified tour booking platform showcasing user booking flows, Paystack payme
 https://tour-nest-pi.vercel.app
 
 ### 🖥️ Tech Stack
-*Frontend:* React, MUI, Formik, Yup, React Router
-*Backend:* Node.js, Express, MongoDB, Mongoose
-*Payments:* Paystack
-*Other:* Cloudinary, JWT Auth, LocalStorage Drafts
+**Frontend:** React, MUI, Formik, Yup, React Router
+**Backend:** Node.js, Express, MongoDB, Mongoose
+**Payments:** Paystack
+**Other:** Cloudinary, JWT Auth, LocalStorage Drafts
 
 ### 📦 Key Features
 - Book real tour packages with live price adjustments
@@ -17,7 +17,7 @@ https://tour-nest-pi.vercel.app
 - Real-time availability management
 - Clean UI + step-based booking flow
 
-📸 Screenshots
+### 📸 Screenshots
 **1. Tour Booking Stepper**
 ![Booking Stepper](public/screenshots/stepper.png)
 
