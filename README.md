@@ -1,5 +1,5 @@
-## 🧳 Tour Manager Mini Booker
-A simplified tour booking platform showcasing user booking flows, Paystack payment integration, real-time availability, and approval management — built with React, Node.js, MongoDB.
+## 🧳 Tour Nest (Tour Manager Mini Booker)
+Tour Nest is a simplified tour booking platform that showcases user booking flows, Paystack payment integration, real-time availability, and approval management — built with React, Node.js, and MongoDB.
 
 ### 🔗 Live Demo
 https://tour-nest-pi.vercel.app
@@ -44,3 +44,6 @@ git clone https://github.com/Mercy-Iyanu/TourNest.git
 cd TourNest
 npm install && npm run dev
 ```
+
+### Case Studies
+Please, catch up on my learnings while working on this project on my [hashnode wall](https://hashnode.com/@mercyio)
