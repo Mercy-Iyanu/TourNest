@@ -40,8 +40,6 @@ Hybrid = Feature-based + Shared UI
 
 ### 🏃‍♂️ Getting Started
 ```bash
-Copy
-Edit
 git clone https://github.com/yourhandle/tour-mini-booker
 cd tour-mini-booker
 npm install && npm run dev
