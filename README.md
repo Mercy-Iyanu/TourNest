@@ -40,7 +40,7 @@ Hybrid = Feature-based + Shared UI
 
 ### 🏃‍♂️ Getting Started
 ```bash
-git clone https://github.com/yourhandle/tour-mini-booker
-cd tour-mini-booker
+git clone https://github.com/Mercy-Iyanu/TourNest.git
+cd TourNest
 npm install && npm run dev
 ```
